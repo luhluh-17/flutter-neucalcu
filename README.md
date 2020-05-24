@@ -1,6 +1,6 @@
-# neucalcu
+# NeuCalcu
 
-A new Flutter application.
+A Neumorphic Calculator App made with Flutter.
 
 ## Getting Started
 
