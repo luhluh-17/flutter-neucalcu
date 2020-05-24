@@ -1,147 +1,122 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:neucalcu/components/neumorphic_button.dart';
+import 'package:neucalcu/themes/colors.dart';
+import 'package:neucalcu/themes/text_size.dart';
 
 class CalculatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 8.0, right: 8.0, bottom: 8.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            Spacer(),
-            Text(
-              'Equation',
-              style: TextStyle(
-                fontSize: 35,
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: SystemUiOverlayStyle.light.copyWith(
+        statusBarColor: Colors.transparent,
+      ),
+      child: Material(
+        color: AppColors.baseColor,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              Spacer(),
+              Text(
+                'Equation',
+                style: TextStyle(
+                  color: AppColors.primaryText,
+                  fontSize: kDisplay,
+                ),
               ),
-            ),
-            Text(
-              'Result',
-              style: TextStyle(fontSize: 30),
-            ),
-            Spacer(),
-            Table(
-              children: [
-                TableRow(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('7', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('8', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('9', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('DEL', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('AC', textAlign: TextAlign.center,),
-                      ),
-                    ]
+              Text(
+                'Result',
+                style: TextStyle(
+                  color: AppColors.primaryText,
+                  fontSize: kHeadline1,
                 ),
-                TableRow(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('4', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('5', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('6', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('×', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('÷', textAlign: TextAlign.center,),
-                      ),
-                    ]
+              ),
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    NeuButton(text: '7'),
+                    NeuButton(text: '8'),
+                    NeuButton(text: '9'),
+                    NeuButton(
+                      text: 'Del',
+                      color: AppColors.accent,
+                    ),
+                    NeuButton(
+                      text: 'AC',
+                      color: AppColors.accent,
+                    ),
+                  ],
                 ),
-                TableRow(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('1', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('2', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('3', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('+', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('-', textAlign: TextAlign.center,),
-                      ),
-                    ]
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    NeuButton(text: '4'),
+                    NeuButton(text: '5'),
+                    NeuButton(text: '6'),
+                    NeuButton(
+                      text: '×',
+                      color: AppColors.accent,
+                      fontSize: kHeadline1,
+                    ),
+                    NeuButton(
+                      text: '÷',
+                      color: AppColors.accent,
+                      fontSize: kHeadline1,
+                    ),
+                  ],
                 ),
-                TableRow(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('0', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text(',', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('EXP', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('ANS', textAlign: TextAlign.center,),
-                      ),
-                      Container(
-                        margin: EdgeInsets.all(8.0),
-                        color: Colors.grey,
-                        child: Text('=', textAlign: TextAlign.center,),
-                      ),
-                    ]
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    NeuButton(text: '1'),
+                    NeuButton(text: '2'),
+                    NeuButton(text: '3'),
+                    NeuButton(
+                      text: '+',
+                      color: AppColors.accent,
+                      fontSize: kHeadline1,
+                    ),
+                    NeuButton(
+                      text: '-',
+                      color: AppColors.accent,
+                      fontSize: kHeadline1,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    NeuButton(text: '0'),
+                    NeuButton(text: '.'),
+                    NeuButton(text: 'EXP'),
+                    NeuButton(
+                      text: 'Ans',
+                      color: AppColors.accent,
+                    ),
+                    NeuButton(
+                      text: '=',
+                      color: AppColors.accent,
+                      fontSize: kHeadline1,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
