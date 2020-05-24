@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/text_size.dart';
+import 'package:provider/provider.dart';
 
 import 'concave_decoration.dart';
 
@@ -18,18 +20,6 @@ class NeuButton extends StatefulWidget {
 
 class _NeuButtonState extends State<NeuButton> {
   bool _isPressed = false;
-
-  void _onPointerDown(PointerDownEvent event) {
-    setState(() {
-      _isPressed = true;
-    });
-  }
-
-  void _onPointerUp(PointerUpEvent event) {
-    setState(() {
-      _isPressed = false;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +57,17 @@ class _NeuButtonState extends State<NeuButton> {
       height: _buttonSize,
       width: _buttonSize,
       child: Listener(
-        onPointerDown: _onPointerDown,
-        onPointerUp: _onPointerUp,
+        onPointerDown: (event){
+          setState(() {
+            _isPressed = true;
+          });
+          context.read<Calculate>().getButtonText(buttonValue: widget.text);
+        },
+        onPointerUp: (event){
+          setState(() {
+            _isPressed = false;
+          });
+        },
         child: Stack(
           children: <Widget>[
             AnimatedContainer(

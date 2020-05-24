@@ -13,5 +13,7 @@ class AppColors {
       (_red - _brightness), (_green - _brightness), (_blue - _brightness), 1);
 
   static const Color primaryText = Colors.white;
-  static const Color accent = Colors.pinkAccent;
+  static const Color secondaryText = Colors.white70;
+  static const Color accent = Colors.amberAccent;
+  static const Color danger = Colors.redAccent;
 }
