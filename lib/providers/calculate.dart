@@ -4,7 +4,6 @@ import 'package:math_expressions/math_expressions.dart';
 class Calculate with ChangeNotifier {
   String _equation = '0';
   String _result = '';
-  String _expression = '';
 
   String get equation => _equation;
 
@@ -14,10 +13,12 @@ class Calculate with ChangeNotifier {
     if (buttonValue == 'AC') {
       _clearInput();
     } else if (buttonValue == 'Del') {
-      _deleteLast();
-    } else if (buttonValue == 'Ans') {
+      _deleteEquation();
     } else if (buttonValue == "=") {
-      _calculateExpression(isPreviewOn: false);
+      _calculateExpression(isPreviewActive: false);
+
+      _equation = _result;
+      _result = 'Answer';
     } else {
       _getButtonText(buttonValue);
     }
@@ -29,17 +30,21 @@ class Calculate with ChangeNotifier {
     _result = '';
   }
 
-  void _deleteLast() {
-    _equation = equation.substring(0, equation.length - 1);
-    _calculateExpression(isPreviewOn: true);
-    if (equation == '') {
-      _equation = '0';
-      _result = '';
+  void _deleteEquation() {
+    if (_equation == 'Syntax Error') {
+      _clearInput();
+    } else {
+      _equation = equation.substring(0, equation.length - 1);
+      _calculateExpression(isPreviewActive: true);
+      if (equation == '') {
+        _equation = '0';
+        _result = '';
+      }
     }
   }
 
-  void _calculateExpression({bool isPreviewOn}) {
-    _expression = equation;
+  void _calculateExpression({bool isPreviewActive}) {
+    String _expression = equation;
     _expression = _expression.replaceAll('×', '*');
     _expression = _expression.replaceAll('÷', '/');
 
@@ -50,24 +55,8 @@ class Calculate with ChangeNotifier {
       ContextModel context = ContextModel();
       _result = '${exp.evaluate(EvaluationType.REAL, context)}';
 
-      String last = _result[_result.length - 1];
-
-      if (last == '0') {
-        _result = _result.substring(0, _result.length - 2);
-      }
-
-      if(_expression == _result){
-        if(!_result.startsWith('-')){
-          _result = '';
-        }
-      }
-
-      if (!isPreviewOn) {
-        _equation = _result;
-        _result = 'Answer';
-      }
     } catch (e) {
-      if (!isPreviewOn) {
+      if (!isPreviewActive) {
         _result = 'Syntax Error';
       }
     }
@@ -79,6 +68,12 @@ class Calculate with ChangeNotifier {
     } else {
       _equation = equation + buttonValue;
     }
-    _calculateExpression(isPreviewOn: true);
+    _calculateExpression(
+      isPreviewActive: true,
+    );
+    RegExp regExp = RegExp(r"[+-/*(]");
+    _calculateExpression(
+      isPreviewActive: regExp.hasMatch(_result),
+    );
   }
 }
