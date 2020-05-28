@@ -38,8 +38,7 @@ class Calculate with ChangeNotifier {
 
   void _displayAnswer(){
     if (_result == 'Answer') {
-      String tempEquation = _equation.replaceAll(',', '');
-      _equation = tempEquation;
+      _removeCommaSeparator();
     }
     _calculateExpression(isPreviewActive: false);
 
@@ -80,12 +79,18 @@ class Calculate with ChangeNotifier {
   }
 
   void _getButtonText(String buttonValue) {
+    _removeCommaSeparator();
     if (_equation == '0') {
       _equation = buttonValue;
     } else {
       _equation = _equation + buttonValue;
     }
     _calculateExpression(isPreviewActive: true);
+  }
+
+  _removeCommaSeparator(){
+    String tempEquation = _equation.replaceAll(',', '');
+    _equation = tempEquation;
   }
 
   int _getDecimalLength() {
