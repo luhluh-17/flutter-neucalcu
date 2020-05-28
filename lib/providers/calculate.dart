@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class Calculate with ChangeNotifier {
@@ -13,12 +14,9 @@ class Calculate with ChangeNotifier {
     if (buttonValue == 'AC') {
       _clearInput();
     } else if (buttonValue == 'Del') {
-      _deleteEquation();
+      _deleteLast();
     } else if (buttonValue == "=") {
-      _calculateExpression(isPreviewActive: false);
-
-      _equation = _result;
-      _result = 'Answer';
+      _displayAnswer();
     } else {
       _getButtonText(buttonValue);
     }
@@ -30,31 +28,50 @@ class Calculate with ChangeNotifier {
     _result = '';
   }
 
-  void _deleteEquation() {
-    if (_equation == 'Syntax Error') {
+  void _deleteLast() {
+    _equation = _equation.substring(0, _equation.length - 1);
+    _calculateExpression(isPreviewActive: true);
+    if (_equation == '') {
       _clearInput();
-    } else {
-      _equation = equation.substring(0, equation.length - 1);
-      _calculateExpression(isPreviewActive: true);
-      if (equation == '') {
-        _equation = '0';
-        _result = '';
-      }
+    }
+  }
+
+  void _displayAnswer(){
+    if (_result == 'Answer') {
+      String tempEquation = _equation.replaceAll(',', '');
+      _equation = tempEquation;
+    }
+    _calculateExpression(isPreviewActive: false);
+
+    if (!(_result == 'Syntax Error')) {
+      _equation = _result;
+      _result = 'Answer';
     }
   }
 
   void _calculateExpression({bool isPreviewActive}) {
-    String _expression = equation;
-    _expression = _expression.replaceAll('×', '*');
-    _expression = _expression.replaceAll('÷', '/');
+    String tempEquation = equation.replaceAll(',', '');
+    String expression = tempEquation;
+    expression = expression.replaceAll('×', '*');
+    expression = expression.replaceAll('÷', '/');
 
     try {
       Parser p = Parser();
-      Expression exp = p.parse(_expression);
+      Expression exp = p.parse(expression);
 
       ContextModel context = ContextModel();
       _result = '${exp.evaluate(EvaluationType.REAL, context)}';
 
+      String tempResult = _result.replaceAll(',', '');
+
+      FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
+        amount: double.parse(tempResult),
+        settings: MoneyFormatterSettings(
+          fractionDigits: _getDecimalLength(),
+        ),
+      );
+
+      _result = fmf.output.nonSymbol.toString();
     } catch (e) {
       if (!isPreviewActive) {
         _result = 'Syntax Error';
@@ -63,17 +80,26 @@ class Calculate with ChangeNotifier {
   }
 
   void _getButtonText(String buttonValue) {
-    if (equation == '0') {
+    if (_equation == '0') {
       _equation = buttonValue;
     } else {
-      _equation = equation + buttonValue;
+      _equation = _equation + buttonValue;
     }
-    _calculateExpression(
-      isPreviewActive: true,
-    );
-    RegExp regExp = RegExp(r"[+-/*(]");
-    _calculateExpression(
-      isPreviewActive: regExp.hasMatch(_result),
-    );
+    _calculateExpression(isPreviewActive: true);
+  }
+
+  int _getDecimalLength() {
+    int startIndex = _result.indexOf('.') + 1;
+    int endIndex = _result.length;
+
+    String decimal = _result.substring(startIndex, endIndex);
+
+    print(decimal.length);
+
+    if(_result.contains('.') && _result.endsWith('0')){
+      return 0;
+    } else{
+      return decimal.length;
+    }
   }
 }

@@ -16,7 +16,7 @@ class DisplayScreen extends StatelessWidget {
             '${context.watch<Calculate>().equation}',
             style: TextStyle(
               color: AppColors.primaryText,
-              fontSize: kDisplay,
+              fontSize: kCustom1,
             ),
           ),
         ),

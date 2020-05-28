@@ -1,4 +1,6 @@
 
+const double kCustom1 = 76.29;
+const double kCustom2 = 61.04;
 const double kDisplay = 48.83;
 const double kHeadline1 = 39.06;
 const double kHeadline2 = 31.25;
