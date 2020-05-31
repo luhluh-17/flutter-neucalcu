@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/shadows.dart';
-import 'package:neucalcu/themes/text_size.dart';
+import 'package:neucalcu/themes/dimensions.dart';
 import 'package:provider/provider.dart';
 
 class CalculatorButton extends StatefulWidget {
@@ -48,7 +48,7 @@ class _CalculatorButtonState extends State<CalculatorButton> {
           children: <Widget>[
             AnimatedContainer(
               duration: Duration(milliseconds: 100),
-              decoration: _isPressed ? kInnerShadow : kOuterShadow,
+              decoration: _isPressed ? getInnerShadow() : getOuterShadow(),
             ),
             Center(
               child: Text(widget.text, style: _buttonStyle),

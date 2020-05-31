@@ -3,12 +3,13 @@ import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class Calculate with ChangeNotifier {
-  String _equation = 'Enter your equation';
+  static String _instructions = 'Enter your equation';
+  String _equation = _instructions;
   String _result = '';
 
   String get equation => _equation;
-
   String get result => _result;
+
 
   getButtonText({String buttonValue}) {
     if (buttonValue == 'AC') {
@@ -29,6 +30,9 @@ class Calculate with ChangeNotifier {
   }
 
   _deleteLast() {
+    if (_equation == _instructions) {
+      _clearInput();
+    }
     _equation = _equation.substring(0, _equation.length - 1);
     _calculateExpression(isPreviewActive: true);
     if (_equation == '') {
@@ -80,7 +84,7 @@ class Calculate with ChangeNotifier {
 
   _getButtonText(String buttonValue) {
     _removeCommaSeparator();
-    if (_equation == '0' || _equation == 'Enter your equation') {
+    if (_equation == '0' || _equation == _instructions) {
       _equation = buttonValue;
     } else {
       _equation = _equation + buttonValue;

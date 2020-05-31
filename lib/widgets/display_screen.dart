@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
-import 'package:neucalcu/themes/text_size.dart';
+import 'package:neucalcu/themes/dimensions.dart';
 import 'package:provider/provider.dart';
 
 class DisplayScreen extends StatelessWidget {

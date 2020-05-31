@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/widgets/calculator_button.dart';
 import 'package:neucalcu/themes/colors.dart';
-import 'package:neucalcu/themes/text_size.dart';
+import 'package:neucalcu/themes/dimensions.dart';
 
 class ButtonContainer extends StatelessWidget {
   @override
