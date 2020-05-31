@@ -3,7 +3,11 @@ import 'package:neucalcu/widgets/concave_decoration.dart';
 
 import 'colors.dart';
 
-ConcaveDecoration getInnerShadow({double radius = 16.0}) {
+const double _radius = 24.0;
+const double _blurRadius = 12.0;
+const Offset _offset = Offset(2, 2);
+
+ConcaveDecoration getInnerShadow({double radius = _radius}) {
   return ConcaveDecoration(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
@@ -13,19 +17,19 @@ ConcaveDecoration getInnerShadow({double radius = 16.0}) {
   );
 }
 
-BoxDecoration getOuterShadow({double radius = 16.0}) {
+BoxDecoration getOuterShadow({double radius = _radius}) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(radius),
     color: AppColors.baseColor,
     boxShadow: [
       BoxShadow(
-        blurRadius: 15,
-        offset: -Offset(3, 3),
+        blurRadius: _blurRadius,
+        offset: -_offset,
         color: AppColors.lightShadow,
       ),
       BoxShadow(
-        blurRadius: 15,
-        offset: Offset(3, 3),
+        blurRadius: _blurRadius,
+        offset: _offset,
         color: AppColors.darkShadow,
       ),
     ],

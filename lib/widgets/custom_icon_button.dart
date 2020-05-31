@@ -2,19 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/shadows.dart';
 
-class CustomIconButton extends StatefulWidget {
-  final Icon icon;
+class CustomIconButton extends StatelessWidget {
+  final IconData icon;
+  final double size;
+  final Function onPressed;
 
-  CustomIconButton({this.icon});
+  CustomIconButton(this.icon, {this.size = 20.0, @required this.onPressed});
 
-  @override
-  _CustomIconButtonState createState() => _CustomIconButtonState();
-}
-
-class _CustomIconButtonState extends State<CustomIconButton> {
-  bool _isPressed = false;
-  double _buttonSize = 45.0;
-  double _iconSize = 20.0;
+  static const double _buttonSize = 40.0;
 
   @override
   Widget build(BuildContext context) {
@@ -22,25 +17,17 @@ class _CustomIconButtonState extends State<CustomIconButton> {
       height: _buttonSize,
       width: _buttonSize,
       child: Listener(
-        onPointerDown: (event) {
-          setState(() => _isPressed = true);
-        },
-        onPointerUp: (event) {
-          setState(() => _isPressed = false);
-        },
+        onPointerDown: (event) => onPressed(),
         child: Stack(
           children: <Widget>[
-            AnimatedContainer(
-              duration: Duration(milliseconds: 100),
-              decoration: _isPressed
-                  ? getInnerShadow(radius: 25.0)
-                  : getOuterShadow(radius: 25.0),
+            Container(
+              decoration: getOuterShadow(radius: 25.0),
             ),
             Center(
               child: Icon(
-                Icons.settings,
+                icon,
                 color: AppColors.accent,
-                size: _iconSize,
+                size: size,
               ),
             ),
           ],

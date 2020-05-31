@@ -1,6 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
+import 'package:hive/hive.dart';
+import 'package:intl/intl.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:neucalcu/models/record.dart';
 
 class Calculate with ChangeNotifier {
   static String _instructions = 'Enter your equation';
@@ -8,8 +11,8 @@ class Calculate with ChangeNotifier {
   String _result = '';
 
   String get equation => _equation;
-  String get result => _result;
 
+  String get result => _result;
 
   getButtonText({String buttonValue}) {
     if (buttonValue == 'AC') {
@@ -40,15 +43,33 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  _displayAnswer(){
+  _displayAnswer() {
     if (_result == 'Answer') {
       _removeCommaSeparator();
     }
     _calculateExpression(isPreviewActive: false);
 
     if (!(_result == 'Syntax Error')) {
+      _saveRecord();
       _equation = _result;
       _result = 'Answer';
+    }
+  }
+
+  void _saveRecord() {
+    DateTime now = new DateTime.now();
+    DateFormat formatter = new DateFormat('MMMM dd, yyyy');
+    String formattedDate = formatter.format(now);
+
+    Record record = Record(
+      answer: _result,
+      equation: _equation,
+      date: formattedDate,
+    );
+
+    if (!(_result == 'Answer')) {
+      Hive.box<Record>('records').add(record);
+      print('Data: ${Hive.box<Record>('records').length}');
     }
   }
 
@@ -92,7 +113,7 @@ class Calculate with ChangeNotifier {
     _calculateExpression(isPreviewActive: true);
   }
 
-  _removeCommaSeparator(){
+  _removeCommaSeparator() {
     String tempEquation = _equation.replaceAll(',', '');
     _equation = tempEquation;
   }
@@ -103,11 +124,9 @@ class Calculate with ChangeNotifier {
 
     String decimal = _result.substring(startIndex, endIndex);
 
-    print(decimal.length);
-
-    if(_result.contains('.') && _result.endsWith('0')){
+    if (_result.contains('.') && _result.endsWith('0')) {
       return 0;
-    } else{
+    } else {
       return decimal.length;
     }
   }
