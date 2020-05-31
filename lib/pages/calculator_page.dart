@@ -21,9 +21,8 @@ class _CalculatorPageState extends State<CalculatorPage> {
   Widget build(BuildContext context) {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
-        statusBarColor: Colors.transparent,
-        systemNavigationBarColor: AppColors.darkShadow
-      ),
+          statusBarColor: Colors.transparent,
+          systemNavigationBarColor: AppColors.darkShadow),
       child: Material(
         color: AppColors.baseColor,
         child: Padding(
@@ -46,10 +45,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
                   Hero(
                     tag: 'iconButton',
                     child: CustomIconButton(
-                      Icons.history,
+                      icon: Icons.history,
                       size: 25.0,
-                      onPressed: () =>
-                          Navigator.pushNamed(context, RecordsPage.id),
+                      onPressed: () => Navigator.pushNamed(
+                        context,
+                        RecordsPage.id,
+                      ),
                     ),
                   ),
                 ],
@@ -67,7 +68,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   @override
   void dispose() {
-    Hive.box<Record>('records')
+    Hive.box<Record>(boxRecord)
       ..compact()
       ..close();
     super.dispose();

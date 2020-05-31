@@ -2,6 +2,8 @@ import 'package:hive/hive.dart';
 
 part 'record.g.dart';
 
+const String boxRecord = 'record';
+
 @HiveType(typeId: 0)
 class Record {
   @HiveField(0)

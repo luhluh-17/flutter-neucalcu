@@ -13,7 +13,7 @@ void main() async {
   final appDirectory = await path.getApplicationDocumentsDirectory();
   Hive.init(appDirectory.path);
   Hive.registerAdapter<Record>(RecordAdapter());
-  await Hive.openBox<Record>('records');
+  await Hive.openBox<Record>(boxRecord);
   runApp(
     MultiProvider(
       providers: [

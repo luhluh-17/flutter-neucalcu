@@ -9,7 +9,7 @@ import 'package:neucalcu/widgets/record_container.dart';
 class RecordsPage extends StatelessWidget {
   static const String id = '/records';
 
-  final recordBox = Hive.box<Record>('records');
+  final recordBox = Hive.box<Record>(boxRecord);
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +32,7 @@ class RecordsPage extends StatelessWidget {
                   child: Hero(
                     tag: 'iconButton',
                     child: CustomIconButton(
-                      Icons.arrow_back_ios,
+                      icon: Icons.arrow_back_ios,
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -40,14 +40,14 @@ class RecordsPage extends StatelessWidget {
                 Text(
                   'Record History',
                   style: TextStyle(
-                    color: Colors.white54,
+                    color: AppColors.primaryText,
                     fontSize: sizeSubHead2,
                   ),
                 ),
                 Positioned(
                   right: 0,
                   child: CustomIconButton(
-                    Icons.delete,
+                    icon: Icons.delete,
                     onPressed: () {
                       recordBox..clear();
                       Navigator.pop(context);

@@ -7,7 +7,7 @@ class CustomIconButton extends StatelessWidget {
   final double size;
   final Function onPressed;
 
-  CustomIconButton(this.icon, {this.size = 20.0, @required this.onPressed});
+  CustomIconButton({this.icon, this.size = 20.0, @required this.onPressed});
 
   static const double _buttonSize = 40.0;
 

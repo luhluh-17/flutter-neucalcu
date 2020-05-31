@@ -50,26 +50,25 @@ class Calculate with ChangeNotifier {
     _calculateExpression(isPreviewActive: false);
 
     if (!(_result == 'Syntax Error')) {
-      _saveRecord();
-      _equation = _result;
+      String equation = _equation;
+      String answer = _equation = _result;
       _result = 'Answer';
+      _saveRecord(answer: answer, equation: equation);
     }
   }
 
-  void _saveRecord() {
+  _saveRecord({String answer, String equation}) {
     DateTime now = new DateTime.now();
     DateFormat formatter = new DateFormat('MMMM dd, yyyy');
     String formattedDate = formatter.format(now);
 
     Record record = Record(
-      answer: _result,
-      equation: _equation,
+      answer: answer,
+      equation: equation,
       date: formattedDate,
     );
 
-    if (!(_result == 'Answer')) {
-      Hive.box<Record>('records').add(record);
-    }
+    Hive.box<Record>(boxRecord).add(record);
   }
 
   _calculateExpression({bool isPreviewActive}) {
