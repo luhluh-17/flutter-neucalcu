@@ -2,23 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
+import 'package:neucalcu/themes/shadows.dart';
 import 'package:neucalcu/themes/text_size.dart';
 import 'package:provider/provider.dart';
 
-import 'concave_decoration.dart';
-
-class NeuButton extends StatefulWidget {
+class CalculatorButton extends StatefulWidget {
   final String text;
   final Color color;
   final double fontSize;
 
-  NeuButton({this.text, this.color = AppColors.primaryText, this.fontSize = sizeSubHead2});
+  CalculatorButton({
+    this.text,
+    this.color = AppColors.primaryText,
+    this.fontSize = sizeSubHead2,
+  });
 
   @override
-  _NeuButtonState createState() => _NeuButtonState();
+  _CalculatorButtonState createState() => _CalculatorButtonState();
 }
 
-class _NeuButtonState extends State<NeuButton> {
+class _CalculatorButtonState extends State<CalculatorButton> {
   bool _isPressed = false;
 
   @override
@@ -26,15 +29,6 @@ class _NeuButtonState extends State<NeuButton> {
     final _width = MediaQuery.of(context).size.width;
     final _buttonSize = _width / 6.5;
     final _radius = 16.0;
-    final _depth = 8.0;
-
-    final _innerShadow = ConcaveDecoration(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(_radius),
-      ),
-      colors: [AppColors.lightShadow, AppColors.darkShadow],
-      depth: _depth,
-    );
 
     BoxDecoration _outerShadow = BoxDecoration(
       borderRadius: BorderRadius.circular(_radius),
@@ -57,22 +51,18 @@ class _NeuButtonState extends State<NeuButton> {
       height: _buttonSize,
       width: _buttonSize,
       child: Listener(
-        onPointerDown: (event){
-          setState(() {
-            _isPressed = true;
-          });
+        onPointerDown: (event) {
+          setState(() => _isPressed = true);
           context.read<Calculate>().getButtonText(buttonValue: widget.text);
         },
-        onPointerUp: (event){
-          setState(() {
-            _isPressed = false;
-          });
+        onPointerUp: (event) {
+          setState(() => _isPressed = false);
         },
         child: Stack(
           children: <Widget>[
             AnimatedContainer(
               duration: Duration(milliseconds: 100),
-              decoration: _isPressed ? _innerShadow : _outerShadow,
+              decoration: _isPressed ? kInnerShadow : _outerShadow,
             ),
             Center(
               child: Text(

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:neucalcu/components/button_container.dart';
-import 'package:neucalcu/components/display_screen.dart';
+import 'package:neucalcu/widgets/button_container.dart';
+import 'package:neucalcu/widgets/display_screen.dart';
 import 'package:neucalcu/themes/colors.dart';
+import 'package:neucalcu/themes/text_size.dart';
 
 class CalculatorPage extends StatelessWidget {
   @override
@@ -16,14 +17,24 @@ class CalculatorPage extends StatelessWidget {
       child: Material(
         color: AppColors.baseColor,
         child: Padding(
-          padding: const EdgeInsets.only(
-            left: _padding,
-            right: _padding,
-            bottom: _padding,
-          ),
+          padding: EdgeInsets.all(_padding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
+              SizedBox(height: 16.0),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'NeuCalcu',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: sizeSubHead2,
+                    ),
+                  ),
+
+                ],
+              ),
               Spacer(),
               DisplayScreen(),
               Spacer(),

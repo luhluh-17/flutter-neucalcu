@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neucalcu/components/neumorphic_button.dart';
+import 'package:neucalcu/widgets/calculator_button.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/text_size.dart';
 
@@ -10,14 +10,14 @@ class ButtonContainer extends StatelessWidget {
       children: <Widget>[
         ButtonRow(
           children: [
-            NeuButton(text: '7'),
-            NeuButton(text: '8'),
-            NeuButton(text: '9'),
-            NeuButton(
+            CalculatorButton(text: '7'),
+            CalculatorButton(text: '8'),
+            CalculatorButton(text: '9'),
+            CalculatorButton(
               text: 'Del',
               color: AppColors.danger,
             ),
-            NeuButton(
+            CalculatorButton(
               text: 'AC',
               color: AppColors.danger,
             ),
@@ -25,15 +25,15 @@ class ButtonContainer extends StatelessWidget {
         ),
         ButtonRow(
           children: [
-            NeuButton(text: '4'),
-            NeuButton(text: '5'),
-            NeuButton(text: '6'),
-            NeuButton(
+            CalculatorButton(text: '4'),
+            CalculatorButton(text: '5'),
+            CalculatorButton(text: '6'),
+            CalculatorButton(
               text: '×',
               color: AppColors.accent,
               fontSize: sizeHeadline1,
             ),
-            NeuButton(
+            CalculatorButton(
               text: '÷',
               color: AppColors.accent,
               fontSize: sizeHeadline1,
@@ -42,15 +42,15 @@ class ButtonContainer extends StatelessWidget {
         ),
         ButtonRow(
           children: [
-            NeuButton(text: '1'),
-            NeuButton(text: '2'),
-            NeuButton(text: '3'),
-            NeuButton(
+            CalculatorButton(text: '1'),
+            CalculatorButton(text: '2'),
+            CalculatorButton(text: '3'),
+            CalculatorButton(
               text: '+',
               color: AppColors.accent,
               fontSize: sizeHeadline1,
             ),
-            NeuButton(
+            CalculatorButton(
               text: '-',
               color: AppColors.accent,
               fontSize: sizeHeadline1,
@@ -59,23 +59,23 @@ class ButtonContainer extends StatelessWidget {
         ),
         ButtonRow(
           children: [
-            NeuButton(text: '0'),
-            NeuButton(
+            CalculatorButton(text: '0'),
+            CalculatorButton(
               text: '(',
               color: AppColors.accent,
               fontSize: sizeSubHead1,
             ),
-            NeuButton(
+            CalculatorButton(
               text: ')',
               color: AppColors.accent,
               fontSize: sizeSubHead1,
             ),
-            NeuButton(
+            CalculatorButton(
               text: '.',
               color: AppColors.accent,
               fontSize: sizeDisplay,
             ),
-            NeuButton(
+            CalculatorButton(
               text: '=',
               color: AppColors.accent,
               fontSize: sizeHeadline1,
