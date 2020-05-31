@@ -1,10 +1,9 @@
-
-const double kCustom1 = 76.29;
-const double kCustom2 = 61.04;
-const double kDisplay = 48.83;
-const double kHeadline1 = 39.06;
-const double kHeadline2 = 31.25;
-const double kSubHeadline1 = 25.00;
-const double kSubHeadline2 = 20.00;
-const double kBody = 16.0;
-const double kCaption = 12.80;
+const double sizeCustom1 = 76.29;
+const double sizeCustom2 = 61.04;
+const double sizeDisplay = 48.83;
+const double sizeHeadline1 = 39.06;
+const double sizeHeadline2 = 31.25;
+const double sizeSubHead1 = 25.00;
+const double sizeSubHead2 = 20.00;
+const double sizeBody = 16.0;
+const double sizeCaption = 12.80;

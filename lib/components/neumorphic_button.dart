@@ -12,7 +12,7 @@ class NeuButton extends StatefulWidget {
   final Color color;
   final double fontSize;
 
-  NeuButton({this.text, this.color = AppColors.primaryText, this.fontSize = kSubHeadline2});
+  NeuButton({this.text, this.color = AppColors.primaryText, this.fontSize = sizeSubHead2});
 
   @override
   _NeuButtonState createState() => _NeuButtonState();
@@ -79,8 +79,8 @@ class _NeuButtonState extends State<NeuButton> {
                 widget.text,
                 style: GoogleFonts.montserrat(
                     fontSize: widget.fontSize,
-                    fontWeight: _isPressed ? FontWeight.w500 : FontWeight.w200,
-                    color: _isPressed ? widget.color.withOpacity(0.5) : widget.color),
+                    fontWeight: FontWeight.w400,
+                    color: _isPressed ? widget.color.withOpacity(0.8) : widget.color),
               ),
             ),
           ],

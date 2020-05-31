@@ -31,12 +31,12 @@ class ButtonContainer extends StatelessWidget {
             NeuButton(
               text: '×',
               color: AppColors.accent,
-              fontSize: kHeadline1,
+              fontSize: sizeHeadline1,
             ),
             NeuButton(
               text: '÷',
               color: AppColors.accent,
-              fontSize: kHeadline1,
+              fontSize: sizeHeadline1,
             ),
           ],
         ),
@@ -48,12 +48,12 @@ class ButtonContainer extends StatelessWidget {
             NeuButton(
               text: '+',
               color: AppColors.accent,
-              fontSize: kHeadline1,
+              fontSize: sizeHeadline1,
             ),
             NeuButton(
               text: '-',
               color: AppColors.accent,
-              fontSize: kHeadline1,
+              fontSize: sizeHeadline1,
             ),
           ],
         ),
@@ -63,22 +63,22 @@ class ButtonContainer extends StatelessWidget {
             NeuButton(
               text: '(',
               color: AppColors.accent,
-              fontSize: kSubHeadline1,
+              fontSize: sizeSubHead1,
             ),
             NeuButton(
               text: ')',
               color: AppColors.accent,
-              fontSize: kSubHeadline1,
+              fontSize: sizeSubHead1,
             ),
             NeuButton(
               text: '.',
               color: AppColors.accent,
-              fontSize: kDisplay,
+              fontSize: sizeDisplay,
             ),
             NeuButton(
               text: '=',
               color: AppColors.accent,
-              fontSize: kHeadline1,
+              fontSize: sizeHeadline1,
             ),
           ],
         ),

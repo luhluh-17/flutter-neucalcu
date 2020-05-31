@@ -3,14 +3,14 @@ import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:math_expressions/math_expressions.dart';
 
 class Calculate with ChangeNotifier {
-  String _equation = '0';
+  String _equation = 'Enter your equation';
   String _result = '';
 
   String get equation => _equation;
 
   String get result => _result;
 
-  void getButtonText({String buttonValue}) {
+  getButtonText({String buttonValue}) {
     if (buttonValue == 'AC') {
       _clearInput();
     } else if (buttonValue == 'Del') {
@@ -23,12 +23,12 @@ class Calculate with ChangeNotifier {
     notifyListeners();
   }
 
-  void _clearInput() {
+  _clearInput() {
     _equation = '0';
     _result = '';
   }
 
-  void _deleteLast() {
+  _deleteLast() {
     _equation = _equation.substring(0, _equation.length - 1);
     _calculateExpression(isPreviewActive: true);
     if (_equation == '') {
@@ -36,7 +36,7 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  void _displayAnswer(){
+  _displayAnswer(){
     if (_result == 'Answer') {
       _removeCommaSeparator();
     }
@@ -48,7 +48,7 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  void _calculateExpression({bool isPreviewActive}) {
+  _calculateExpression({bool isPreviewActive}) {
     String tempEquation = equation.replaceAll(',', '');
     String expression = tempEquation;
     expression = expression.replaceAll('×', '*');
@@ -78,9 +78,9 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  void _getButtonText(String buttonValue) {
+  _getButtonText(String buttonValue) {
     _removeCommaSeparator();
-    if (_equation == '0') {
+    if (_equation == '0' || _equation == 'Enter your equation') {
       _equation = buttonValue;
     } else {
       _equation = _equation + buttonValue;
