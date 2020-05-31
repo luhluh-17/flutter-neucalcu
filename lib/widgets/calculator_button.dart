@@ -26,26 +26,12 @@ class _CalculatorButtonState extends State<CalculatorButton> {
 
   @override
   Widget build(BuildContext context) {
-    final _width = MediaQuery.of(context).size.width;
-    final _buttonSize = _width / 6.5;
-    final _radius = 16.0;
+    final _buttonSize = MediaQuery.of(context).size.width / 6.5;
 
-    BoxDecoration _outerShadow = BoxDecoration(
-      borderRadius: BorderRadius.circular(_radius),
-      color: AppColors.baseColor,
-      boxShadow: [
-        BoxShadow(
-          blurRadius: 15,
-          offset: -Offset(4, 4),
-          color: AppColors.lightShadow,
-        ),
-        BoxShadow(
-          blurRadius: 15,
-          offset: Offset(4, 4),
-          color: AppColors.darkShadow,
-        ),
-      ],
-    );
+    final TextStyle _buttonStyle = GoogleFonts.montserrat(
+        fontSize: widget.fontSize,
+        fontWeight: FontWeight.w400,
+        color: _isPressed ? widget.color.withOpacity(0.8) : widget.color);
 
     return SizedBox(
       height: _buttonSize,
@@ -62,16 +48,10 @@ class _CalculatorButtonState extends State<CalculatorButton> {
           children: <Widget>[
             AnimatedContainer(
               duration: Duration(milliseconds: 100),
-              decoration: _isPressed ? kInnerShadow : _outerShadow,
+              decoration: _isPressed ? kInnerShadow : kOuterShadow,
             ),
             Center(
-              child: Text(
-                widget.text,
-                style: GoogleFonts.montserrat(
-                    fontSize: widget.fontSize,
-                    fontWeight: FontWeight.w400,
-                    color: _isPressed ? widget.color.withOpacity(0.8) : widget.color),
-              ),
+              child: Text(widget.text, style: _buttonStyle),
             ),
           ],
         ),
