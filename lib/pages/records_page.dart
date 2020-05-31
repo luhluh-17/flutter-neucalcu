@@ -4,9 +4,12 @@ import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/widgets/custom_icon_button.dart';
+import 'package:neucalcu/widgets/record_container.dart';
 
 class RecordsPage extends StatelessWidget {
   static const String id = '/records';
+
+  final recordBox = Hive.box<Record>('records');
 
   @override
   Widget build(BuildContext context) {
@@ -35,29 +38,41 @@ class RecordsPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'Settings',
+                  'Record History',
                   style: TextStyle(
                     color: Colors.white54,
                     fontSize: sizeSubHead2,
                   ),
                 ),
+                Positioned(
+                  right: 0,
+                  child: CustomIconButton(
+                    Icons.delete,
+                    onPressed: () {
+                      recordBox..clear();
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
               ],
             ),
-            Expanded(
-              child: ListView.builder(
-                physics: BouncingScrollPhysics(),
-                itemCount: Hive.box<Record>('records').length,
-                itemBuilder: (context, index) {
-                  final Record record = Hive.box<Record>('records').get(index);
-                  return ListTile(
-                    title: Text(record.answer),
-                    subtitle: Text(record.equation + ' ' + record.date),
-                  );
-                },
-              ),
-            ),
+            SizedBox(height: 24.0),
+            _buildListView(),
           ],
         ),
+      ),
+    );
+  }
+
+  _buildListView() {
+    return Expanded(
+      child: ListView.builder(
+        physics: BouncingScrollPhysics(),
+        itemCount: recordBox.length,
+        itemBuilder: (context, index) {
+          final Record record = recordBox.get(index);
+          return RecordContainer(record: record);
+        },
       ),
     );
   }

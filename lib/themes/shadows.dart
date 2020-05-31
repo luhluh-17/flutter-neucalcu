@@ -5,7 +5,7 @@ import 'colors.dart';
 
 const double _radius = 24.0;
 const double _blurRadius = 12.0;
-const Offset _offset = Offset(2, 2);
+const Offset _offset = Offset(4, 4);
 
 ConcaveDecoration getInnerShadow({double radius = _radius}) {
   return ConcaveDecoration(

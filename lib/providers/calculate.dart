@@ -69,7 +69,6 @@ class Calculate with ChangeNotifier {
 
     if (!(_result == 'Answer')) {
       Hive.box<Record>('records').add(record);
-      print('Data: ${Hive.box<Record>('records').length}');
     }
   }
 
