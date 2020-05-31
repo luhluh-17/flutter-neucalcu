@@ -33,42 +33,44 @@ class Calculate with ChangeNotifier {
   }
 
   _deleteLast() {
-    if (_equation == _instructions) {
+    if (equation == _instructions) {
       _clearInput();
     }
-    _equation = _equation.substring(0, _equation.length - 1);
+    _equation = equation.substring(0, equation.length - 1);
     _calculateExpression(isPreviewActive: true);
-    if (_equation == '') {
+    if (equation == '') {
       _clearInput();
     }
   }
 
   _displayAnswer() {
-    if (_result == 'Answer') {
+    if (result == 'Answer') {
       _removeCommaSeparator();
     }
     _calculateExpression(isPreviewActive: false);
 
-    if (!(_result == 'Syntax Error')) {
-      String equation = _equation;
+    if (!(result == 'Syntax Error')) {
+      String temp = equation;
       String answer = _equation = _result;
       _result = 'Answer';
-      _saveRecord(answer: answer, equation: equation);
+      _saveRecord(answer: answer, equation: temp);
     }
   }
 
   _saveRecord({String answer, String equation}) {
-    DateTime now = new DateTime.now();
-    DateFormat formatter = new DateFormat('MMMM dd, yyyy');
-    String formattedDate = formatter.format(now);
+    if (answer != equation) {
+      DateTime now = new DateTime.now();
+      DateFormat formatter = new DateFormat('MMMM dd, yyyy');
+      String formattedDate = formatter.format(now);
 
-    Record record = Record(
-      answer: answer,
-      equation: equation,
-      date: formattedDate,
-    );
+      Record record = Record(
+        answer: answer,
+        equation: equation,
+        date: formattedDate,
+      );
 
-    Hive.box<Record>(boxRecord).add(record);
+      Hive.box<Record>(boxRecord).add(record);
+    }
   }
 
   _calculateExpression({bool isPreviewActive}) {
@@ -84,7 +86,7 @@ class Calculate with ChangeNotifier {
       ContextModel context = ContextModel();
       _result = '${exp.evaluate(EvaluationType.REAL, context)}';
 
-      String tempResult = _result.replaceAll(',', '');
+      String tempResult = result.replaceAll(',', '');
 
       FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
         amount: double.parse(tempResult),
@@ -103,26 +105,26 @@ class Calculate with ChangeNotifier {
 
   _getButtonText(String buttonValue) {
     _removeCommaSeparator();
-    if (_equation == '0' || _equation == _instructions) {
+    if (equation == '0' || equation == _instructions) {
       _equation = buttonValue;
     } else {
-      _equation = _equation + buttonValue;
+      _equation = equation + buttonValue;
     }
     _calculateExpression(isPreviewActive: true);
   }
 
   _removeCommaSeparator() {
-    String tempEquation = _equation.replaceAll(',', '');
+    String tempEquation = equation.replaceAll(',', '');
     _equation = tempEquation;
   }
 
   int _getDecimalLength() {
-    int startIndex = _result.indexOf('.') + 1;
-    int endIndex = _result.length;
+    int startIndex = result.indexOf('.') + 1;
+    int endIndex = result.length;
 
-    String decimal = _result.substring(startIndex, endIndex);
+    String decimal = result.substring(startIndex, endIndex);
 
-    if (_result.contains('.') && _result.endsWith('0')) {
+    if (result.contains('.') && result.endsWith('0')) {
       return 0;
     } else {
       return decimal.length;
