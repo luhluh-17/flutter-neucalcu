@@ -18,58 +18,44 @@ class RecordContainer extends StatefulWidget {
 }
 
 class _RecordContainerState extends State<RecordContainer> {
-  bool _isPressed = false;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 120.0,
+      height: 112.0,
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 8.0),
-      child: Listener(
-        onPointerDown: (event) {
-          setState(() => _isPressed = true);
-        },
-        onPointerUp: (event) {
-          setState(() => _isPressed = false);
-          context.read<Calculate>().getDataFromRecords(
-              answer: widget.record.answer,
-              equation: widget.record.equation,
-              date: widget.record.date);
-          Navigator.pop(context);
-        },
-        child: Stack(
+      child: Container(
+        padding: EdgeInsets.all(16.0),
+        decoration: getOuterShadow(radius: 15.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            AnimatedContainer(
-              duration: Duration(milliseconds: 100),
-              decoration: _isPressed
-                  ? getInnerShadow(radius: 16.0)
-                  : getOuterShadow(radius: 16.0),
+            Row(
+              children: <Widget>[
+                Text(
+                  getFormattedDate(date: widget.record.date),
+                  style: TextStyle(color: AppColors.accent),
+                ),
+              ],
             ),
-            Container(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        getFormattedDate(date: widget.record.date),
-                        style: TextStyle(color: AppColors.accent),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16.0),
-                  Expanded(
-                    child: DisplayScreen(
-                      leadingText: widget.record.answer,
-                      fontSizeLeading: sizeHeadline2,
-                      trailingText: widget.record.equation,
-                    ),
-                  ),
-                ],
+            SizedBox(height: 8.0),
+            Expanded(
+              child: GestureDetector(
+                onTap: (){
+                  context.read<Calculate>().getDataFromRecords(
+                      answer: widget.record.answer,
+                      equation: widget.record.equation,
+                      date: widget.record.date);
+                  Navigator.pop(context);
+                },
+                child: DisplayScreen(
+                  leadingText: widget.record.answer,
+                  fontSizeLeading: sizeHeadline2,
+                  trailingText: widget.record.equation,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),

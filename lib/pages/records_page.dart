@@ -4,6 +4,7 @@ import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/widgets/custom_icon_button.dart';
+import 'package:neucalcu/widgets/empty_data.dart';
 import 'package:neucalcu/widgets/record_container.dart';
 
 const double _padding = 16.0;
@@ -58,7 +59,9 @@ class RecordsPage extends StatelessWidget {
             ),
           ),
           SizedBox(height: 24.0),
-          RecordListViewBuilder(box: recordBox),
+          recordBox.length >= 1
+              ? RecordListViewBuilder(box: recordBox)
+              : EmptyData()
         ],
       ),
     );
@@ -76,7 +79,10 @@ class RecordListViewBuilder extends StatelessWidget {
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.only(
-            left: _padding, right: _padding, bottom: _padding),
+          left: _padding,
+          right: _padding,
+          bottom: _padding,
+        ),
         itemCount: box.length,
         itemBuilder: (context, index) {
           final Record record = box.get(index);
@@ -86,4 +92,3 @@ class RecordListViewBuilder extends StatelessWidget {
     );
   }
 }
-
