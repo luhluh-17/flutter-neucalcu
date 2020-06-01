@@ -60,20 +60,11 @@ class _RecordContainerState extends State<RecordContainer> {
                     ],
                   ),
                   SizedBox(height: 16.0),
-                  Hero(
-                    tag: widget.record.date,
-                    flightShuttleBuilder: (flightContext, animation,
-                        flightDirection, fromHeroContext, toHeroContext) {
-                      return DefaultTextStyle(
-                        style: DefaultTextStyle.of(toHeroContext).style,
-                        child: toHeroContext.widget,
-                      );
-                    },
+                  Expanded(
                     child: DisplayScreen(
                       leadingText: widget.record.answer,
                       fontSizeLeading: sizeHeadline2,
                       trailingText: widget.record.equation,
-                      fontSizeTrailing: sizeDefault,
                     ),
                   ),
                 ],

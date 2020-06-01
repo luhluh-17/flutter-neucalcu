@@ -8,11 +8,9 @@ class Calculate with ChangeNotifier {
   static String _instructions = 'Enter your equation';
   String _equation = _instructions;
   String _answer = '';
-  String _date = '';
 
   String get equation => _equation;
   String get answer => _answer;
-  String get date => _date;
 
   getButtonText({String buttonValue}) {
     if (buttonValue == 'AC') {
@@ -68,7 +66,6 @@ class Calculate with ChangeNotifier {
       );
 
       Hive.box<Record>(boxRecord).add(record);
-      _date = currentDateTime.toString();
     }
   }
 
@@ -134,7 +131,6 @@ class Calculate with ChangeNotifier {
   getDataFromRecords({ String answer, String equation, String date}){
     _equation = answer;
     _answer = equation;
-    _date = date;
     notifyListeners();
   }
 }

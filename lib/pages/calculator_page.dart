@@ -55,19 +55,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 ],
               ),
               Expanded(
-                child: Hero(
-                  tag: '${context.watch<Calculate>().date}',
-                  flightShuttleBuilder: (flightContext, animation,
-                      flightDirection, fromHeroContext, toHeroContext) {
-                    return DefaultTextStyle(
-                      style: DefaultTextStyle.of(toHeroContext).style,
-                      child: toHeroContext.widget,
-                    );
-                  },
-                  child: DisplayScreen(
-                    leadingText: '${context.watch<Calculate>().equation}',
-                    trailingText: '${context.watch<Calculate>().answer}',
-                  ),
+                child: DisplayScreen(
+                  leadingText: '${context.watch<Calculate>().equation}',
+                  trailingText: '${context.watch<Calculate>().answer}',
                 ),
               ),
               ButtonContainer(),
