@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:neucalcu/models/record.dart';
+import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/themes/shadows.dart';
+import 'package:neucalcu/widgets/display_screen.dart';
+import 'package:provider/provider.dart';
 
 class RecordContainer extends StatefulWidget {
   final Record record;
@@ -19,7 +23,7 @@ class _RecordContainerState extends State<RecordContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 112.0,
+      height: 120.0,
       width: double.infinity,
       margin: EdgeInsets.symmetric(vertical: 8.0),
       child: Listener(
@@ -28,6 +32,11 @@ class _RecordContainerState extends State<RecordContainer> {
         },
         onPointerUp: (event) {
           setState(() => _isPressed = false);
+          context.read<Calculate>().getDataFromRecords(
+              answer: widget.record.answer,
+              equation: widget.record.equation,
+              date: widget.record.date);
+          Navigator.pop(context);
         },
         child: Stack(
           children: <Widget>[
@@ -45,31 +54,26 @@ class _RecordContainerState extends State<RecordContainer> {
                   Row(
                     children: <Widget>[
                       Text(
-                        widget.record.date,
-                        style: TextStyle(
-                          color: AppColors.accent,
-                        ),
+                        getFormattedDate(date: widget.record.date),
+                        style: TextStyle(color: AppColors.accent),
                       ),
                     ],
                   ),
-                  Spacer(),
-                  FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      widget.record.answer,
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontSize: sizeHeadline2,
-                      ),
-                    ),
-                  ),
-                  FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      widget.record.equation,
-                      style: TextStyle(
-                        color: AppColors.secondaryText,
-                      ),
+                  SizedBox(height: 16.0),
+                  Hero(
+                    tag: widget.record.date,
+                    flightShuttleBuilder: (flightContext, animation,
+                        flightDirection, fromHeroContext, toHeroContext) {
+                      return DefaultTextStyle(
+                        style: DefaultTextStyle.of(toHeroContext).style,
+                        child: toHeroContext.widget,
+                      );
+                    },
+                    child: DisplayScreen(
+                      leadingText: widget.record.answer,
+                      fontSizeLeading: sizeHeadline2,
+                      trailingText: widget.record.equation,
+                      fontSizeTrailing: sizeDefault,
                     ),
                   ),
                 ],
@@ -79,5 +83,13 @@ class _RecordContainerState extends State<RecordContainer> {
         ),
       ),
     );
+  }
+
+  String getFormattedDate({String date}) {
+    DateTime dateTime = DateTime.parse(date);
+    DateFormat formatter = new DateFormat('MMMM dd, yyyy');
+    String formattedDate = formatter.format(dateTime);
+
+    return formattedDate;
   }
 }

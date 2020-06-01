@@ -8,19 +8,24 @@ import 'package:neucalcu/widgets/record_container.dart';
 
 class RecordsPage extends StatelessWidget {
   static const String id = '/records';
+  static const double _padding = 16.0;
 
   final recordBox = Hive.box<Record>(boxRecord);
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: AppColors.baseColor,
-      child: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          children: <Widget>[
-            SizedBox(height: 25.0),
-            Stack(
+    return Scaffold(
+      backgroundColor: AppColors.baseColor,
+      body: Column(
+        children: <Widget>[
+          SizedBox(height: 25.0),
+          Padding(
+            padding: const EdgeInsets.only(
+              left: _padding,
+              top: _padding,
+              right: _padding
+            ),
+            child: Stack(
               alignment: Alignment.center,
               children: <Widget>[
                 Container(
@@ -29,12 +34,9 @@ class RecordsPage extends StatelessWidget {
                 ),
                 Positioned(
                   left: 0,
-                  child: Hero(
-                    tag: 'iconButton',
-                    child: CustomIconButton(
-                      icon: Icons.arrow_back_ios,
-                      onPressed: () => Navigator.pop(context),
-                    ),
+                  child: CustomIconButton(
+                    icon: Icons.arrow_back_ios,
+                    onPressed: () => Navigator.pop(context),
                   ),
                 ),
                 Text(
@@ -56,10 +58,10 @@ class RecordsPage extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 24.0),
-            _buildListView(),
-          ],
-        ),
+          ),
+          SizedBox(height: 24.0),
+          _buildListView(),
+        ],
       ),
     );
   }
@@ -68,6 +70,11 @@ class RecordsPage extends StatelessWidget {
     return Expanded(
       child: ListView.builder(
         physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.only(
+          left: _padding,
+          right: _padding,
+          bottom: _padding
+        ),
         itemCount: recordBox.length,
         itemBuilder: (context, index) {
           final Record record = recordBox.get(index);

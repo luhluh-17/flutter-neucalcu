@@ -3,11 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/pages/records_page.dart';
+import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/widgets/button_container.dart';
 import 'package:neucalcu/widgets/custom_icon_button.dart';
 import 'package:neucalcu/widgets/display_screen.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
+import 'package:provider/provider.dart';
 
 class CalculatorPage extends StatefulWidget {
   static const String id = '/calculator';
@@ -23,9 +25,9 @@ class _CalculatorPageState extends State<CalculatorPage> {
       value: SystemUiOverlayStyle.light.copyWith(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: AppColors.darkShadow),
-      child: Material(
-        color: AppColors.baseColor,
-        child: Padding(
+      child: Scaffold(
+        backgroundColor: AppColors.baseColor,
+        body: Padding(
           padding: EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -42,22 +44,32 @@ class _CalculatorPageState extends State<CalculatorPage> {
                       fontSize: sizeSubHead2,
                     ),
                   ),
-                  Hero(
-                    tag: 'iconButton',
-                    child: CustomIconButton(
-                      icon: Icons.history,
-                      size: 25.0,
-                      onPressed: () => Navigator.pushNamed(
-                        context,
-                        RecordsPage.id,
-                      ),
+                  CustomIconButton(
+                    icon: Icons.history,
+                    size: 25.0,
+                    onPressed: () => Navigator.pushNamed(
+                      context,
+                      RecordsPage.id,
                     ),
                   ),
                 ],
               ),
-              Spacer(),
-              DisplayScreen(),
-              Spacer(),
+              Expanded(
+                child: Hero(
+                  tag: '${context.watch<Calculate>().date}',
+                  flightShuttleBuilder: (flightContext, animation,
+                      flightDirection, fromHeroContext, toHeroContext) {
+                    return DefaultTextStyle(
+                      style: DefaultTextStyle.of(toHeroContext).style,
+                      child: toHeroContext.widget,
+                    );
+                  },
+                  child: DisplayScreen(
+                    leadingText: '${context.watch<Calculate>().equation}',
+                    trailingText: '${context.watch<Calculate>().answer}',
+                  ),
+                ),
+              ),
               ButtonContainer(),
             ],
           ),

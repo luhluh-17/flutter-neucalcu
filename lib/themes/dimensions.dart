@@ -6,4 +6,5 @@ const double sizeHeadline2 = 31.25;
 const double sizeSubHead1 = 25.00;
 const double sizeSubHead2 = 20.00;
 const double sizeBody = 16.0;
+const double sizeDefault = 14.0;
 const double sizeCaption = 12.80;

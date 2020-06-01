@@ -1,18 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:hive/hive.dart';
-import 'package:intl/intl.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:neucalcu/models/record.dart';
 
 class Calculate with ChangeNotifier {
   static String _instructions = 'Enter your equation';
   String _equation = _instructions;
-  String _result = '';
+  String _answer = '';
+  String _date = '';
 
   String get equation => _equation;
-
-  String get result => _result;
+  String get answer => _answer;
+  String get date => _date;
 
   getButtonText({String buttonValue}) {
     if (buttonValue == 'AC') {
@@ -29,7 +29,7 @@ class Calculate with ChangeNotifier {
 
   _clearInput() {
     _equation = '0';
-    _result = '';
+    _answer = '';
   }
 
   _deleteLast() {
@@ -44,32 +44,31 @@ class Calculate with ChangeNotifier {
   }
 
   _displayAnswer() {
-    if (result == 'Answer') {
+    if (answer == 'Answer') {
       _removeCommaSeparator();
     }
     _calculateExpression(isPreviewActive: false);
 
-    if (!(result == 'Syntax Error')) {
+    if (!(answer == 'Syntax Error')) {
       String temp = equation;
-      String answer = _equation = _result;
-      _result = 'Answer';
+      String answer = _equation = _answer;
+      _answer = 'Answer';
       _saveRecord(answer: answer, equation: temp);
     }
   }
 
   _saveRecord({String answer, String equation}) {
     if (answer != equation) {
-      DateTime now = new DateTime.now();
-      DateFormat formatter = new DateFormat('MMMM dd, yyyy');
-      String formattedDate = formatter.format(now);
+      DateTime currentDateTime = new DateTime.now();
 
       Record record = Record(
         answer: answer,
         equation: equation,
-        date: formattedDate,
+        date: currentDateTime.toString(),
       );
 
       Hive.box<Record>(boxRecord).add(record);
+      _date = currentDateTime.toString();
     }
   }
 
@@ -84,9 +83,9 @@ class Calculate with ChangeNotifier {
       Expression exp = p.parse(expression);
 
       ContextModel context = ContextModel();
-      _result = '${exp.evaluate(EvaluationType.REAL, context)}';
+      _answer = '${exp.evaluate(EvaluationType.REAL, context)}';
 
-      String tempResult = result.replaceAll(',', '');
+      String tempResult = answer.replaceAll(',', '');
 
       FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
         amount: double.parse(tempResult),
@@ -95,10 +94,10 @@ class Calculate with ChangeNotifier {
         ),
       );
 
-      _result = fmf.output.nonSymbol.toString();
+      _answer = fmf.output.nonSymbol.toString();
     } catch (e) {
       if (!isPreviewActive) {
-        _result = 'Syntax Error';
+        _answer = 'Syntax Error';
       }
     }
   }
@@ -119,15 +118,23 @@ class Calculate with ChangeNotifier {
   }
 
   int _getDecimalLength() {
-    int startIndex = result.indexOf('.') + 1;
-    int endIndex = result.length;
+    int startIndex = answer.indexOf('.') + 1;
+    int endIndex = answer.length;
 
-    String decimal = result.substring(startIndex, endIndex);
+    String decimal = answer.substring(startIndex, endIndex);
 
-    if (result.contains('.') && result.endsWith('0')) {
+    if (answer.contains('.') && answer.endsWith('0')) {
       return 0;
     } else {
       return decimal.length;
     }
+  }
+
+  // Settings
+  getDataFromRecords({ String answer, String equation, String date}){
+    _equation = answer;
+    _answer = equation;
+    _date = date;
+    notifyListeners();
   }
 }
