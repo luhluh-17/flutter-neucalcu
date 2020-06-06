@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'file:///C:/AppFlutter/LuhLuh/neumorphic_calculator/lib/widgets/concave_decoration.dart';
+import 'package:neucalcu/widgets/concave_decoration.dart';
 
 import 'colors.dart';
 
