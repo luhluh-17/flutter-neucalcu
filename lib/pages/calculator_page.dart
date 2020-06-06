@@ -24,11 +24,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
           statusBarColor: Colors.transparent,
-          systemNavigationBarColor: AppColors.darkShadow),
+          systemNavigationBarColor: AppColors.primaryDark),
       child: Scaffold(
-        backgroundColor: AppColors.baseColor,
+        backgroundColor: AppColors.primary,
         body: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: EdgeInsets.all(sizeBody1),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
@@ -41,7 +41,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
                     'NeuCalcu',
                     style: TextStyle(
                       color: Colors.white54,
-                      fontSize: sizeSubHead2,
+                      fontSize: sizeSubtitle1,
                     ),
                   ),
                   CustomIconButton(

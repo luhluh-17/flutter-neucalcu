@@ -31,12 +31,12 @@ class ButtonContainer extends StatelessWidget {
             CalculatorButton(
               text: '×',
               color: AppColors.accent,
-              fontSize: sizeHeadline1,
+              fontSize: sizeHeadline4,
             ),
             CalculatorButton(
               text: '÷',
               color: AppColors.accent,
-              fontSize: sizeHeadline1,
+              fontSize: sizeHeadline4,
             ),
           ],
         ),
@@ -48,12 +48,12 @@ class ButtonContainer extends StatelessWidget {
             CalculatorButton(
               text: '+',
               color: AppColors.accent,
-              fontSize: sizeHeadline1,
+              fontSize: sizeHeadline4,
             ),
             CalculatorButton(
               text: '-',
               color: AppColors.accent,
-              fontSize: sizeHeadline1,
+              fontSize: sizeHeadline4,
             ),
           ],
         ),
@@ -63,22 +63,22 @@ class ButtonContainer extends StatelessWidget {
             CalculatorButton(
               text: '(',
               color: AppColors.accent,
-              fontSize: sizeSubHead1,
+              fontSize: sizeHeadline6,
             ),
             CalculatorButton(
               text: ')',
               color: AppColors.accent,
-              fontSize: sizeSubHead1,
+              fontSize: sizeHeadline6,
             ),
             CalculatorButton(
               text: '.',
               color: AppColors.accent,
-              fontSize: sizeDisplay,
+              fontSize: sizeHeadline3,
             ),
             CalculatorButton(
               text: '=',
-              color: AppColors.accent,
-              fontSize: sizeHeadline1,
+              color: AppColors.danger,
+              fontSize: sizeHeadline4,
             ),
           ],
         ),

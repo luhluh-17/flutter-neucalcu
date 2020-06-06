@@ -4,10 +4,9 @@ import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/widgets/custom_icon_button.dart';
-import 'package:neucalcu/widgets/empty_data.dart';
 import 'package:neucalcu/widgets/record_container.dart';
 
-const double _padding = 16.0;
+const double _padding = sizeBody1;
 
 class RecordsPage extends StatelessWidget {
   static const String id = '/records';
@@ -17,7 +16,7 @@ class RecordsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.baseColor,
+      backgroundColor: AppColors.primary,
       body: Column(
         children: <Widget>[
           SizedBox(height: 25.0),
@@ -40,10 +39,7 @@ class RecordsPage extends StatelessWidget {
                 ),
                 Text(
                   'Record History',
-                  style: TextStyle(
-                    color: AppColors.primaryText,
-                    fontSize: sizeSubHead2,
-                  ),
+                  style: Theme.of(context).textTheme.subtitle2
                 ),
                 Positioned(
                   right: 0,
@@ -76,18 +72,29 @@ class RecordListViewBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ListView.builder(
+      child: ListView.separated(
+        padding: EdgeInsets.all(sizeBody1),
         physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.only(
-          left: _padding,
-          right: _padding,
-          bottom: _padding,
-        ),
         itemCount: box.length,
-        itemBuilder: (context, index) {
+        separatorBuilder: (_, index) => SizedBox(height: 24.0),
+        itemBuilder: (_, index) {
           final Record record = box.get(index);
           return RecordContainer(record: record);
         },
+      ),
+    );
+  }
+}
+
+class EmptyData extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Center(
+        child: Text(
+          'Empty Data',
+          style: Theme.of(context).textTheme.headline3,
+        ),
       ),
     );
   }

@@ -1,32 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/themes/shadows.dart';
+import 'package:neucalcu/utils/formats.dart';
 import 'package:neucalcu/widgets/display_screen.dart';
 import 'package:provider/provider.dart';
 
-class RecordContainer extends StatefulWidget {
+class RecordContainer extends StatelessWidget {
   final Record record;
 
   RecordContainer({this.record});
 
   @override
-  _RecordContainerState createState() => _RecordContainerState();
-}
-
-class _RecordContainerState extends State<RecordContainer> {
-
-  @override
   Widget build(BuildContext context) {
     return Container(
-      height: 112.0,
+      height: 120,
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
       child: Container(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(12.0),
         decoration: getOuterShadow(radius: 15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -34,7 +27,7 @@ class _RecordContainerState extends State<RecordContainer> {
             Row(
               children: <Widget>[
                 Text(
-                  getFormattedDate(date: widget.record.date),
+                  getFormattedDate(date: record.date),
                   style: TextStyle(color: AppColors.accent),
                 ),
               ],
@@ -42,17 +35,18 @@ class _RecordContainerState extends State<RecordContainer> {
             SizedBox(height: 8.0),
             Expanded(
               child: GestureDetector(
-                onTap: (){
+                onTap: () {
                   context.read<Calculate>().getDataFromRecords(
-                      answer: widget.record.answer,
-                      equation: widget.record.equation,
-                      date: widget.record.date);
+                        answer: record.answer,
+                        equation: record.equation,
+                        date: record.date,
+                      );
                   Navigator.pop(context);
                 },
                 child: DisplayScreen(
-                  leadingText: widget.record.answer,
-                  fontSizeLeading: sizeHeadline2,
-                  trailingText: widget.record.equation,
+                  leadingText: record.answer,
+                  fontSizeLeading: sizeHeadline5,
+                  trailingText: record.equation,
                 ),
               ),
             ),
@@ -60,13 +54,5 @@ class _RecordContainerState extends State<RecordContainer> {
         ),
       ),
     );
-  }
-
-  String getFormattedDate({String date}) {
-    DateTime dateTime = DateTime.parse(date);
-    DateFormat formatter = new DateFormat('MMMM dd, yyyy');
-    String formattedDate = formatter.format(dateTime);
-
-    return formattedDate;
   }
 }

@@ -14,7 +14,7 @@ class CalculatorButton extends StatefulWidget {
   CalculatorButton({
     this.text,
     this.color = AppColors.primaryText,
-    this.fontSize = sizeSubHead2,
+    this.fontSize = sizeSubtitle1,
   });
 
   @override

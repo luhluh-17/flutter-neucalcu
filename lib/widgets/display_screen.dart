@@ -10,9 +10,9 @@ class DisplayScreen extends StatelessWidget {
 
   DisplayScreen({
     this.leadingText,
-    this.fontSizeLeading = sizeCustom1,
+    this.fontSizeLeading = sizeHeadline1,
     this.trailingText,
-    this.fontSizeTrailing = sizeSubHead2,
+    this.fontSizeTrailing = sizeSubtitle1,
   });
 
   @override

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neucalcu/widgets/concave_decoration.dart';
+import 'file:///C:/AppFlutter/LuhLuh/neumorphic_calculator/lib/widgets/concave_decoration.dart';
 
 import 'colors.dart';
 
@@ -12,7 +12,7 @@ ConcaveDecoration getInnerShadow({double radius = _radius}) {
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
     ),
-    colors: [AppColors.lightShadow, AppColors.darkShadow],
+    colors: [AppColors.primaryLight, AppColors.primaryDark],
     depth: 6.0,
   );
 }
@@ -20,17 +20,17 @@ ConcaveDecoration getInnerShadow({double radius = _radius}) {
 BoxDecoration getOuterShadow({double radius = _radius}) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(radius),
-    color: AppColors.baseColor,
+    color: AppColors.primary,
     boxShadow: [
       BoxShadow(
         blurRadius: _blurRadius,
         offset: -_offset,
-        color: AppColors.lightShadow,
+        color: AppColors.primaryLight,
       ),
       BoxShadow(
         blurRadius: _blurRadius,
         offset: _offset,
-        color: AppColors.darkShadow,
+        color: AppColors.primaryDark,
       ),
     ],
   );
