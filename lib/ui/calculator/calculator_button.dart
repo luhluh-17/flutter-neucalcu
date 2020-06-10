@@ -39,7 +39,10 @@ class _CalculatorButtonState extends State<CalculatorButton> {
       child: Listener(
         onPointerDown: (event) {
           setState(() => _isPressed = true);
-          context.read<Calculate>().getButtonText(buttonValue: widget.text);
+          context.read<Calculate>().getButtonText(
+                context: context,
+                buttonValue: widget.text,
+              );
         },
         onPointerUp: (event) {
           setState(() => _isPressed = false);

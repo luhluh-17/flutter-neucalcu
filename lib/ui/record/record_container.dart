@@ -5,7 +5,6 @@ import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/themes/shadows.dart';
 import 'package:neucalcu/utils/formats.dart';
-import 'package:neucalcu/widgets/display_screen.dart';
 import 'package:provider/provider.dart';
 
 class RecordContainer extends StatelessWidget {
@@ -43,10 +42,29 @@ class RecordContainer extends StatelessWidget {
                       );
                   Navigator.pop(context);
                 },
-                child: DisplayScreen(
-                  leadingText: record.answer,
-                  fontSizeLeading: sizeHeadline5,
-                  trailingText: record.equation,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: Text(
+                        record.answer,
+                        style: TextStyle(
+                          color: AppColors.primaryText,
+                          fontSize: sizeHeadline5,
+                        ),
+                      ),
+                    ),
+                    Text(
+                      record.equation,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: AppColors.secondaryText,
+                        fontSize: sizeSubtitle1,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

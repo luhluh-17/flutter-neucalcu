@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:neucalcu/widgets/concave_decoration.dart';
+import 'package:neucalcu/ui/widgets/concave_decoration.dart';
 
 import 'colors.dart';
 

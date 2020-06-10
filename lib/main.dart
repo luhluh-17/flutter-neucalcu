@@ -2,17 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:neucalcu/models/record.dart';
-import 'package:neucalcu/pages/calculator_page.dart';
-import 'package:neucalcu/pages/records_page.dart';
+import 'package:neucalcu/providers/animate.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
-import 'package:path_provider/path_provider.dart' as path;
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
+
+import 'ui/calculator/calculator_page.dart';
+import 'ui/record/records_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final appDirectory = await path.getApplicationDocumentsDirectory();
+  final appDirectory = await getApplicationDocumentsDirectory();
   Hive.init(appDirectory.path);
   Hive.registerAdapter<Record>(RecordAdapter());
   await Hive.openBox<Record>(boxRecord);
@@ -20,6 +22,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Calculate()),
+        ChangeNotifierProvider(create: (_) => Animate()),
       ],
       child: MyApp(),
     ),
@@ -43,7 +46,6 @@ class MyApp extends StatelessWidget {
 
   ThemeData _buildAppTheme(BuildContext context) {
     final ThemeData base = ThemeData.light();
-
     return base.copyWith(
         textTheme: _appTextTheme(
           GoogleFonts.montserratTextTheme(base.textTheme),

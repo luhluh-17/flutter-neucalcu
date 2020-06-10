@@ -1,33 +1,46 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:hive/hive.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:neucalcu/models/record.dart';
+import 'package:provider/provider.dart';
+
+import 'animate.dart';
 
 class Calculate with ChangeNotifier {
   static String _instructions = 'Enter your equation';
   String _equation = _instructions;
-  String _answer = '';
+  String _answer = ' ';
 
   String get equation => _equation;
+
   String get answer => _answer;
 
-  getButtonText({String buttonValue}) {
+  getButtonText({BuildContext context, String buttonValue}) {
     if (buttonValue == 'AC') {
       _clearInput();
     } else if (buttonValue == 'Del') {
       _deleteLast();
-    } else if (buttonValue == "=") {
-      _displayAnswer();
+    } else if (buttonValue == '=') {
+      _displayAnswer(context: context);
     } else {
       _getButtonText(buttonValue);
     }
+
+    var animate = context.read<Animate>();
+    if(buttonValue != '=' && animate.showAnswer){
+      animate.showAnswer = false;
+      animate.reverseAnimation(controller: animate.leadingController);
+      animate.reverseAnimation(controller: animate.trailingController);
+    }
+
     notifyListeners();
   }
 
   _clearInput() {
     _equation = '0';
-    _answer = '';
+    _answer = ' ';
   }
 
   _deleteLast() {
@@ -41,17 +54,22 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  _displayAnswer() {
+  _displayAnswer({BuildContext context}) {
+
     if (answer == 'Answer') {
       _removeCommaSeparator();
     }
     _calculateExpression(isPreviewActive: false);
 
-    if (!(answer == 'Syntax Error')) {
-      String temp = equation;
-      String answer = _equation = _answer;
-      _answer = 'Answer';
-      _saveRecord(answer: answer, equation: temp);
+    var animate = context.read<Animate>();
+
+    if (answer != 'Syntax Error' && !animate.showAnswer) {
+
+      animate.showAnswer = true;
+      animate.startAnimation(controller: animate.leadingController);
+      animate.startAnimation(controller: animate.trailingController);
+
+      _saveRecord(answer: answer, equation: equation);
     }
   }
 
@@ -128,7 +146,7 @@ class Calculate with ChangeNotifier {
   }
 
   // Settings
-  getDataFromRecords({ String answer, String equation, String date}){
+  getDataFromRecords({String answer, String equation, String date}) {
     _equation = answer;
     _answer = equation;
     notifyListeners();
