@@ -5,7 +5,19 @@ import 'colors.dart';
 
 const double _radius = 24.0;
 const double _blurRadius = 12.0;
-const Offset _offset = Offset(4, 4);
+
+const List<BoxShadow> _shadows = [
+  BoxShadow(
+    blurRadius: _blurRadius,
+    offset: Offset(-4, -4),
+    color: AppColors.primaryLight,
+  ),
+  BoxShadow(
+    blurRadius: _blurRadius,
+    offset: Offset(4, 4),
+    color: AppColors.primaryDark,
+  ),
+];
 
 ConcaveDecoration getInnerShadow({double radius = _radius}) {
   return ConcaveDecoration(
@@ -21,17 +33,14 @@ BoxDecoration getOuterShadow({double radius = _radius}) {
   return BoxDecoration(
     borderRadius: BorderRadius.circular(radius),
     color: AppColors.primary,
-    boxShadow: [
-      BoxShadow(
-        blurRadius: _blurRadius,
-        offset: -_offset,
-        color: AppColors.primaryLight,
-      ),
-      BoxShadow(
-        blurRadius: _blurRadius,
-        offset: _offset,
-        color: AppColors.primaryDark,
-      ),
-    ],
+    boxShadow: _shadows
+  );
+}
+
+BoxDecoration getOuterShadowCircle() {
+  return BoxDecoration(
+    shape: BoxShape.circle,
+    color: AppColors.primary,
+    boxShadow: _shadows
   );
 }

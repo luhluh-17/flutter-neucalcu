@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:neucalcu/models/record.dart';
-import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/ui/widgets/custom_icon_button.dart';
 
 class RecordAppbar extends StatelessWidget {
@@ -17,7 +16,7 @@ class RecordAppbar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             CustomIconButton(
-              icon: LineAwesomeIcons.angle_left,
+              icon: LineAwesomeIcons.arrow_left,
               onPressed: () => Navigator.pop(context),
             ),
             Text(

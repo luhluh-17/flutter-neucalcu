@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:neucalcu/themes/dimensions.dart';
-import 'package:neucalcu/ui/record/records_page.dart';
 import 'package:neucalcu/ui/widgets/custom_icon_button.dart';
 
 class SettingsAppbar extends StatelessWidget {
@@ -15,7 +14,7 @@ class SettingsAppbar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             CustomIconButton(
-              icon: LineAwesomeIcons.angle_left,
+              icon: LineAwesomeIcons.arrow_left,
               size: 25.0,
               onPressed: () => Navigator.pop(context),
             ),

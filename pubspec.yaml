@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^0.1.3
+  flutter_circle_color_picker: ^0.2.0
   flutter_money_formatter: ^0.8.3
   google_fonts: ^1.1.0
   hive: ^1.4.1+1
