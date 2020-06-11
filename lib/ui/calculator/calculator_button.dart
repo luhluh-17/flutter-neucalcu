@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/shadows.dart';
@@ -28,10 +27,11 @@ class _CalculatorButtonState extends State<CalculatorButton> {
   Widget build(BuildContext context) {
     final _buttonSize = MediaQuery.of(context).size.width / 6.5;
 
-    final TextStyle _buttonStyle = GoogleFonts.montserrat(
-        fontSize: widget.fontSize,
-        fontWeight: FontWeight.w400,
-        color: _isPressed ? widget.color.withOpacity(0.8) : widget.color);
+    final TextStyle _buttonStyle = TextStyle(
+      fontSize: widget.fontSize,
+      fontWeight: _isPressed ? FontWeight.w900 : FontWeight.w400,
+      color: _isPressed ? widget.color.withOpacity(0.8) : widget.color,
+    );
 
     return SizedBox(
       height: _buttonSize,

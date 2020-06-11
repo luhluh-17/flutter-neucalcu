@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/themes/dimensions.dart';
+import 'package:neucalcu/ui/record/records_page.dart';
 import 'package:neucalcu/ui/widgets/custom_icon_button.dart';
 
-class RecordAppbar extends StatelessWidget {
-  final recordBox = Hive.box<Record>(boxRecord);
-
+class SettingsAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -15,25 +12,24 @@ class RecordAppbar extends StatelessWidget {
         SizedBox(height: 25.0),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             CustomIconButton(
               icon: LineAwesomeIcons.angle_left,
+              size: 25.0,
               onPressed: () => Navigator.pop(context),
             ),
             Text(
-              'Record History',
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .apply(color: Colors.white54),
+              'Settings',
+              style: TextStyle(
+                color: Colors.white54,
+                fontSize: sizeSubtitle1,
+              ),
             ),
-            CustomIconButton(
-              icon: LineAwesomeIcons.trash,
-              onPressed: () {
-                recordBox..clear();
-                Navigator.pop(context);
-              },
-            ),
+            SizedBox(
+              height: 40.0,
+              width: 40.0,
+            )
           ],
         ),
       ],

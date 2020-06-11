@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/ui/record/records_page.dart';
+import 'package:neucalcu/ui/setting/settings_page.dart';
 import 'package:neucalcu/ui/widgets/custom_icon_button.dart';
 
 class CalculatorAppbar extends StatelessWidget {
@@ -20,12 +22,22 @@ class CalculatorAppbar extends StatelessWidget {
                 fontSize: sizeSubtitle1,
               ),
             ),
+            Spacer(),
             CustomIconButton(
-              icon: Icons.history,
+              icon: LineAwesomeIcons.history,
               size: 25.0,
               onPressed: () => Navigator.pushNamed(
                 context,
                 RecordsPage.id,
+              ),
+            ),
+            SizedBox(width: 20.0),
+            CustomIconButton(
+              icon: LineAwesomeIcons.cog,
+              size: 25.0,
+              onPressed: () => Navigator.pushNamed(
+                context,
+                SettingsPage.id,
               ),
             ),
           ],

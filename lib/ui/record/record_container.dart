@@ -4,7 +4,7 @@ import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/themes/shadows.dart';
-import 'package:neucalcu/utils/formats.dart';
+import 'package:neucalcu/util/utils.dart';
 import 'package:provider/provider.dart';
 
 class RecordContainer extends StatelessWidget {
@@ -33,7 +33,7 @@ class RecordContainer extends StatelessWidget {
             ),
             SizedBox(height: 8.0),
             Expanded(
-              child: GestureDetector(
+              child: InkWell(
                 onTap: () {
                   context.read<Calculate>().getDataFromRecords(
                         answer: record.answer,

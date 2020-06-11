@@ -24,9 +24,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
       value: SystemUiOverlayStyle.light.copyWith(
           statusBarColor: Colors.transparent,
           systemNavigationBarColor: AppColors.primaryDark),
-
       child: Scaffold(
-        backgroundColor: AppColors.primary,
         body: Padding(
           padding: EdgeInsets.all(sizeBody1),
           child: Column(

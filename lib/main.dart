@@ -6,6 +6,7 @@ import 'package:neucalcu/providers/animate.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
+import 'package:neucalcu/ui/setting/settings_page.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       routes: {
         CalculatorPage.id: (context) => CalculatorPage(),
         RecordsPage.id: (context) => RecordsPage(),
+        SettingsPage.id: (context) => SettingsPage(),
       },
     );
   }
@@ -50,6 +52,7 @@ class MyApp extends StatelessWidget {
         textTheme: _appTextTheme(
           GoogleFonts.montserratTextTheme(base.textTheme),
         ),
+        scaffoldBackgroundColor: AppColors.primary,
         visualDensity: VisualDensity.adaptivePlatformDensity);
   }
 

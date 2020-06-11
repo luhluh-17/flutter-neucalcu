@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/themes/colors.dart';
+import 'package:neucalcu/themes/dimensions.dart';
 
 import 'record_appbar.dart';
 import 'record_list_builder.dart';
@@ -14,15 +15,17 @@ class RecordsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.primary,
-      body: Column(
-        children: <Widget>[
-          RecordAppbar(),
-          SizedBox(height: 24.0),
-          recordBox.length >= 1
-              ? RecordListBuilder(box: recordBox)
-              : EmptyData()
-        ],
+      body: Padding(
+        padding: EdgeInsets.all(sizeBody1),
+        child: Column(
+          children: <Widget>[
+            RecordAppbar(),
+            SizedBox(height: 24.0),
+            recordBox.length >= 1
+                ? RecordListBuilder(box: recordBox)
+                : EmptyData()
+          ],
+        ),
       ),
     );
   }
