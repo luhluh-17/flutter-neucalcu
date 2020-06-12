@@ -26,7 +26,7 @@ class Calculate with ChangeNotifier {
       _getButtonText(buttonValue);
     }
 
-    var animate = context.read<Animate>();
+    final animate = context.read<Animate>();
     if (buttonValue != '=' && animate.showAnswer) {
       animate.showAnswer = false;
       animate.reverseAnimation(controller: animate.leadingController);

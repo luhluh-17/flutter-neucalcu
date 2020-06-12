@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/models/record.dart';
+import 'package:neucalcu/providers/animate.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/shadows.dart';
 import 'package:neucalcu/tools/util.dart';
@@ -39,11 +40,17 @@ class RecordContainer extends StatelessWidget {
           Expanded(
             child: InkWell(
               onTap: () {
-                context.read<Calculate>().getDataFromRecords(
-                      answer: record.answer,
-                      equation: record.equation,
-                      date: record.date,
-                    );
+                final calculate = context.read<Calculate>();
+                calculate.getDataFromRecords(
+                  answer: record.answer,
+                  equation: record.equation,
+                  date: record.date,
+                );
+                final animate = context.read<Animate>();
+                animate.showAnswer = false;
+                animate.reverseAnimation(controller: animate.leadingController);
+                animate.reverseAnimation(
+                    controller: animate.trailingController);
                 Navigator.pop(context);
               },
               child: Column(
