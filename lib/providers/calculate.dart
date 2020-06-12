@@ -8,8 +8,7 @@ import 'package:provider/provider.dart';
 import 'animate.dart';
 
 class Calculate with ChangeNotifier {
-  static String _instructions = 'Enter your equation';
-  String _equation = _instructions;
+  String _equation = '0';
   String _answer = ' ';
 
   String get equation => _equation;
@@ -43,9 +42,6 @@ class Calculate with ChangeNotifier {
   }
 
   _deleteLast() {
-    if (equation == _instructions) {
-      _clearInput();
-    }
     _equation = equation.substring(0, equation.length - 1);
     _calculateExpression(isPreviewActive: true);
     if (equation == '') {
@@ -116,7 +112,7 @@ class Calculate with ChangeNotifier {
 
   _getButtonText(String buttonValue) {
     _removeCommaSeparator();
-    if (equation == '0' || equation == _instructions) {
+    if (equation == '0') {
       _equation = buttonValue;
     } else {
       _equation = equation + buttonValue;

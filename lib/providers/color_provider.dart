@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
-import 'package:neucalcu/themes/colors.dart';
 
 const String boxColor = 'appColor';
 const double _opacity = 1.0;
@@ -8,66 +7,21 @@ const int _brightness = 25;
 
 class ColorProvider with ChangeNotifier {
   Color _primary;
-  Color _primaryLight;
-  Color _primaryDark;
-  Color _primaryText;
-  Color _secondaryText;
-  bool _isDarkMode;
 
   var box = Hive.box(boxColor);
 
   Color get primary => Color(box.get('primary'));
 
-  Color get primaryLight => Color(box.get('primaryLight'));
+  Color get primaryLight => _getPrimaryColorLight();
 
-  Color get primaryDark => Color(box.get('primaryDark'));
+  Color get primaryDark => _getPrimaryColorDark();
 
-  Color get primaryText => Color(box.get('primaryText'));
-
-  Color get secondaryText => Color(box.get('secondaryText'));
-
-  bool get isDarkMode => _isColorDark(primary);
+  bool get isDarkMode => _isColorDark();
 
   updatePrimaryColor(Color color) {
-
     _primary = _getPrimaryColor(color);
-
-    _primaryLight = Color.fromRGBO(
-      _primary.red + _brightness,
-      _primary.green + _brightness,
-      _primary.blue + _brightness,
-      _opacity,
-    );
-
-    _primaryDark = Color.fromRGBO(
-      _primary.red - _brightness,
-      _primary.green - _brightness,
-      _primary.blue - _brightness,
-      _opacity,
-    );
-
     final box = Hive.box(boxColor);
     box.put('primary', _primary.value);
-    box.put('primaryLight', _primaryLight.value);
-    box.put('primaryDark', _primaryDark.value);
-
-    _isDarkMode = _isColorDark(_primary);
-
-    if (_isDarkMode) {
-      _primaryText = AppColors.darkPrimaryText;
-      _secondaryText = AppColors.darkSecondaryText;
-
-      box.put('primaryText', _primaryText.value);
-      box.put('secondaryText', _secondaryText.value);
-    } else {
-
-      _primaryText = AppColors.lightPrimaryText;
-      _secondaryText = AppColors.lightSecondaryText;
-
-      box.put('primaryText', _primaryText.value);
-      box.put('secondaryText', _secondaryText.value);
-    }
-
     notifyListeners();
   }
 
@@ -90,9 +44,30 @@ class ColorProvider with ChangeNotifier {
     return Color.fromRGBO(red, green, blue, 1.0);
   }
 
-  bool _isColorDark(Color color) {
-    double brightness =
-        (0.299 * color.red + 0.587 * color.green + 0.114 * color.blue) / 255;
+  Color _getPrimaryColorLight() {
+    return Color.fromRGBO(
+      primary.red + _brightness,
+      primary.green + _brightness,
+      primary.blue + _brightness,
+      _opacity,
+    );
+  }
+
+  Color _getPrimaryColorDark() {
+    return Color.fromRGBO(
+      primary.red - _brightness,
+      primary.green - _brightness,
+      primary.blue - _brightness,
+      _opacity,
+    );
+  }
+
+  bool _isColorDark() {
+    double red = 0.2126 * primary.red;
+    double green = 0.7152 * primary.green;
+    double blue = 0.0722 * primary.blue;
+
+    double brightness = (red + green + blue) / 255;
 
     bool answer = (brightness > 0.5) ? true : false;
     return answer;

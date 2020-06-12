@@ -36,9 +36,7 @@ _initializeHive() async {
 
   print('Colors: ${box.length}');
   if (box.length == 0) {
-    print('Added Default Colors');
+    print('Load Colors');
     box.put('primary', AppColors.primary.value);
-    box.put('primaryLight', AppColors.primaryLight.value);
-    box.put('primaryDark', AppColors.primaryDark.value);
   }
 }

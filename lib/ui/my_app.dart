@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Calculator',
+      title: 'NeuCalcu',
       debugShowCheckedModeBanner: false,
       theme: _buildAppTheme(context),
       initialRoute: CalculatorPage.id,
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
     Color primaryDark = provider.primaryDark;
     Color accent = AppColors.accent;
     bool isDarkMode = provider.isDarkMode;
-    final ThemeData base = isDarkMode ? ThemeData.dark() : ThemeData.light();
+    final ThemeData base = isDarkMode ? ThemeData.light() : ThemeData.dark();
 
     return base.copyWith(
         primaryColor: primary,

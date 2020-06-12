@@ -23,3 +23,10 @@ SystemUiOverlayStyle getSystemUI({bool appTheme, Color navBarColor}) {
     systemNavigationBarColor: navBarColor,
   );
 }
+
+appBarStyle(BuildContext context) {
+  final _textTheme = Theme.of(context).textTheme;
+  return _textTheme.subtitle1.copyWith(
+    color: _textTheme.headline1.color.withOpacity(0.55),
+  );
+}

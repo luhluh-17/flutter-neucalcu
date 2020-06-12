@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/providers/calculate.dart';
 import 'package:neucalcu/themes/shadows.dart';
-import 'package:neucalcu/util/utils.dart';
+import 'package:neucalcu/tools/util.dart';
 import 'package:provider/provider.dart';
 
 class RecordContainer extends StatelessWidget {

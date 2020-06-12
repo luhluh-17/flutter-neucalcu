@@ -14,17 +14,21 @@ class RecordsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.all(sizeBody1),
-        child: Column(
-          children: <Widget>[
-            RecordAppbar(),
-            SizedBox(height: 24.0),
-            recordBox.length >= 1
-                ? RecordListBuilder(box: recordBox)
-                : EmptyData()
-          ],
-        ),
+      body: Column(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(
+              left: sizeBody1,
+              top: sizeBody1,
+              right: sizeBody1,
+            ),
+            child: RecordAppbar(),
+          ),
+          SizedBox(height: 24.0),
+          recordBox.length >= 1
+              ? RecordListBuilder(box: recordBox)
+              : EmptyData()
+        ],
       ),
     );
   }

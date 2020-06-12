@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/models/record.dart';
+import 'package:neucalcu/themes/dimensions.dart';
 
 import 'record_container.dart';
 
@@ -13,6 +14,7 @@ class RecordListBuilder extends StatelessWidget {
     return Expanded(
       child: ListView.separated(
         physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.all(sizeBody1),
         itemCount: box.length,
         separatorBuilder: (_, index) => SizedBox(height: 24.0),
         itemBuilder: (_, index) {

@@ -24,9 +24,9 @@ class CustomIconButton extends StatelessWidget {
             Container(
               decoration: getOuterShadow(
                 radius: 25.0,
+                primary: _theme.primaryColor,
                 lightShadow: _theme.primaryColorLight,
                 darkShadow: _theme.primaryColorDark,
-                primary: _theme.primaryColor
               ),
             ),
             Center(

@@ -79,9 +79,9 @@ class NeumorphicAnimation extends StatelessWidget {
               darkShadow: _theme.primaryColorDark,
             )
           : getOuterShadow(
+              primary: _theme.primaryColor,
               lightShadow: _theme.primaryColorLight,
               darkShadow: _theme.primaryColorDark,
-              primary: _theme.primaryColor,
             ),
     );
   }

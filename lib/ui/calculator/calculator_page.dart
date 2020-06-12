@@ -4,8 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/providers/color_provider.dart';
 import 'package:neucalcu/themes/dimensions.dart';
+import 'package:neucalcu/tools/util.dart';
 import 'package:neucalcu/ui/calculator/calculator_appbar.dart';
-import 'package:neucalcu/util/utils.dart';
 import 'package:provider/provider.dart';
 
 import 'button_container.dart';

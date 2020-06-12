@@ -35,9 +35,9 @@ ConcaveDecoration getInnerShadow(
 
 BoxDecoration getOuterShadow({
   double radius = _radius,
+  @required Color primary,
   @required Color lightShadow,
   @required Color darkShadow,
-  @required Color primary,
 }) {
   return BoxDecoration(
       borderRadius: BorderRadius.circular(radius),
@@ -46,9 +46,9 @@ BoxDecoration getOuterShadow({
 }
 
 BoxDecoration getOuterShadowCircle({
+  @required Color primary,
   @required Color lightShadow,
   @required Color darkShadow,
-  @required Color primary,
 }) {
   return BoxDecoration(
     shape: BoxShape.circle,
