@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/providers/animate.dart';
 import 'package:neucalcu/providers/calculate.dart';
-import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:provider/provider.dart';
 
@@ -39,9 +38,13 @@ class _LeadingTextState extends State<LeadingText>
 
   @override
   Widget build(BuildContext context) {
+    final _textTheme = Theme.of(context).textTheme;
+    Color _primaryText = _textTheme.headline1.color;
+    Color _secondaryText = _textTheme.bodyText1.color;
+
     final _sizeTween = Tween(begin: sizeHeadline1, end: sizeSubtitle1);
     final ColorTween _colorTween =
-        ColorTween(begin: AppColors.primaryText, end: AppColors.secondaryText);
+        ColorTween(begin: _primaryText, end: _secondaryText);
 
     return FittedBox(
       fit: BoxFit.fitWidth,

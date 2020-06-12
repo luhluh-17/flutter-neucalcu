@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/shadows.dart';
-
-import 'inner_ring.dart';
 
 class CircleContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
+
     return Container(
       height: 290.0,
       width: 290.0,
-      decoration: getOuterShadowCircle(),
+      decoration: getOuterShadowCircle(
+        lightShadow: _theme.primaryColorLight,
+        darkShadow: _theme.primaryColorDark,
+        primary: _theme.primaryColor,
+      ),
       child: Center(
         child: Container(
           height: 200.0,
@@ -19,17 +22,22 @@ class CircleContainer extends StatelessWidget {
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: AppColors.primaryLight,
+                color: _theme.primaryColorLight,
                 spreadRadius: 20,
                 blurRadius: 45,
                 offset: Offset(0, 8), // changes position of shadow
               ),
             ],
           ),
-          child: Stack(
-            children: <Widget>[
-              Center(child: InnerRing(width: 300.0)),
-            ],
+          child: Center(
+            child: Container(
+              height: 300,
+              width: 300,
+              decoration: BoxDecoration(
+                color: _theme.primaryColor,
+                shape: BoxShape.circle,
+              ),
+            ),
           ),
         ),
       ),

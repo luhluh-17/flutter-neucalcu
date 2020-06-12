@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/ui/record/records_page.dart';
 import 'package:neucalcu/ui/setting/settings_page.dart';
+import 'package:neucalcu/ui/widgets/appbar_text.dart';
 import 'package:neucalcu/ui/widgets/custom_icon_button.dart';
 
 class CalculatorAppbar extends StatelessWidget {
@@ -15,13 +15,7 @@ class CalculatorAppbar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'NeuCalcu',
-              style: TextStyle(
-                color: Colors.white54,
-                fontSize: sizeSubtitle1,
-              ),
-            ),
+            AppbarText(text: 'NeuCalcu'),
             Spacer(),
             CustomIconButton(
               icon: LineAwesomeIcons.history,

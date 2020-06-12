@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/providers/animate.dart';
 import 'package:neucalcu/providers/calculate.dart';
-import 'package:neucalcu/themes/colors.dart';
 import 'package:neucalcu/themes/dimensions.dart';
 import 'package:provider/provider.dart';
 
@@ -40,9 +39,13 @@ class _TrailingTextState extends State<TrailingText>
 
   @override
   Widget build(BuildContext context) {
+    final _textTheme = Theme.of(context).textTheme;
+    Color _primaryText = _textTheme.headline1.color;
+    Color _secondaryText = _textTheme.bodyText1.color;
+
     final _sizeTween = Tween(begin: sizeSubtitle1, end: sizeHeadline1);
     final ColorTween _colorTween =
-        ColorTween(begin: AppColors.secondaryText, end: AppColors.primaryText);
+        ColorTween(begin: _secondaryText, end: _primaryText);
 
     return FittedBox(
       fit: BoxFit.fitWidth,

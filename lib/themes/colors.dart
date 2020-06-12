@@ -21,8 +21,14 @@ class AppColors {
     _opacity,
   );
 
-  static const Color primaryText = Colors.white;
-  static const Color secondaryText = Colors.white38;
   static const Color accent = Colors.amberAccent;
   static const Color danger = Colors.redAccent;
+
+  // light mode
+  static const Color lightPrimaryText = Colors.white;
+  static const Color lightSecondaryText = Colors.white38;
+
+  // dark mode
+  static const Color darkPrimaryText = Colors.black;
+  static const Color darkSecondaryText = Colors.black45;
 }

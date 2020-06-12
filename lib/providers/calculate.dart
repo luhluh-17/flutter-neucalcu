@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:hive/hive.dart';
@@ -29,7 +28,7 @@ class Calculate with ChangeNotifier {
     }
 
     var animate = context.read<Animate>();
-    if(buttonValue != '=' && animate.showAnswer){
+    if (buttonValue != '=' && animate.showAnswer) {
       animate.showAnswer = false;
       animate.reverseAnimation(controller: animate.leadingController);
       animate.reverseAnimation(controller: animate.trailingController);
@@ -55,16 +54,14 @@ class Calculate with ChangeNotifier {
   }
 
   _displayAnswer({BuildContext context}) {
-
     if (answer == 'Answer') {
       _removeCommaSeparator();
     }
     _calculateExpression(isPreviewActive: false);
 
-    var animate = context.read<Animate>();
+    final animate = context.read<Animate>();
 
     if (answer != 'Syntax Error' && !animate.showAnswer) {
-
       animate.showAnswer = true;
       animate.startAnimation(controller: animate.leadingController);
       animate.startAnimation(controller: animate.trailingController);

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:neucalcu/models/record.dart';
+import 'package:neucalcu/ui/widgets/appbar_text.dart';
 import 'package:neucalcu/ui/widgets/custom_icon_button.dart';
 
 class RecordAppbar extends StatelessWidget {
@@ -19,13 +20,7 @@ class RecordAppbar extends StatelessWidget {
               icon: LineAwesomeIcons.arrow_left,
               onPressed: () => Navigator.pop(context),
             ),
-            Text(
-              'Record History',
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle1
-                  .apply(color: Colors.white54),
-            ),
+            AppbarText(text: 'Record History'),
             CustomIconButton(
               icon: LineAwesomeIcons.trash,
               onPressed: () {

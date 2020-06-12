@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/providers/calculate.dart';
-import 'package:neucalcu/themes/colors.dart';
-import 'package:neucalcu/themes/dimensions.dart';
 import 'package:neucalcu/themes/shadows.dart';
 import 'package:neucalcu/util/utils.dart';
 import 'package:provider/provider.dart';
@@ -14,11 +12,18 @@ class RecordContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
+    final _textTheme = _theme.textTheme;
     return Container(
       height: 120,
       width: double.infinity,
       padding: EdgeInsets.all(12.0),
-      decoration: getOuterShadow(radius: 15.0),
+      decoration: getOuterShadow(
+        radius: 15.0,
+        primary: _theme.primaryColor,
+        lightShadow: _theme.primaryColorLight,
+        darkShadow: _theme.primaryColorDark,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
@@ -26,7 +31,7 @@ class RecordContainer extends StatelessWidget {
             children: <Widget>[
               Text(
                 getFormattedDate(date: record.date),
-                style: TextStyle(color: AppColors.accent),
+                style: TextStyle(color: _theme.accentColor),
               ),
             ],
           ),
@@ -49,19 +54,14 @@ class RecordContainer extends StatelessWidget {
                     fit: BoxFit.fitWidth,
                     child: Text(
                       record.answer,
-                      style: TextStyle(
-                        color: AppColors.primaryText,
-                        fontSize: sizeHeadline5,
-                      ),
+                      style: _textTheme.headline5
+                          .copyWith(color: _textTheme.headline1.color),
                     ),
                   ),
                   Text(
                     record.equation,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      color: AppColors.secondaryText,
-                      fontSize: sizeSubtitle1,
-                    ),
+                    style: _textTheme.bodyText1,
                   ),
                 ],
               ),

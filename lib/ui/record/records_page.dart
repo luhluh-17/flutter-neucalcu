@@ -33,11 +33,14 @@ class RecordsPage extends StatelessWidget {
 class EmptyData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final _textTheme = Theme.of(context).textTheme;
     return Expanded(
       child: Center(
         child: Text(
           'Empty Data',
-          style: Theme.of(context).textTheme.headline3,
+          style: _textTheme.headline3.copyWith(
+            color: _textTheme.bodyText1.color,
+          ),
         ),
       ),
     );
