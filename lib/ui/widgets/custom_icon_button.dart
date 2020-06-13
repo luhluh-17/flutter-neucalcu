@@ -12,8 +12,6 @@ class CustomIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _theme = Theme.of(context);
-
     return SizedBox(
       height: _buttonSize,
       width: _buttonSize,
@@ -21,14 +19,7 @@ class CustomIconButton extends StatelessWidget {
         onPointerDown: (event) => onPressed(),
         child: Stack(
           children: <Widget>[
-            Container(
-              decoration: getOuterShadow(
-                radius: 25.0,
-                primary: _theme.primaryColor,
-                lightShadow: _theme.primaryColorLight,
-                darkShadow: _theme.primaryColorDark,
-              ),
-            ),
+            Container(decoration: getOuterShadow(context, radius: 25.0)),
             Center(
               child: Icon(
                 icon,

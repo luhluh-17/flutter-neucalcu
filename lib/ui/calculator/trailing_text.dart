@@ -50,7 +50,7 @@ class _TrailingTextState extends State<TrailingText>
     return FittedBox(
       fit: BoxFit.fitWidth,
       child: Text(
-        '${context.watch<Calculate>().answer}',
+        '${context.watch<Calculate>().result}',
         style: TextStyle(
           color: _colorTween.evaluate(_animation),
           fontSize: _sizeTween.evaluate(_animation),

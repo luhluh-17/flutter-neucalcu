@@ -69,20 +69,10 @@ class NeumorphicAnimation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _theme = Theme.of(context);
-
     return AnimatedContainer(
       duration: Duration(milliseconds: 100),
-      decoration: _isPressed
-          ? getInnerShadow(
-              lightShadow: _theme.primaryColorLight,
-              darkShadow: _theme.primaryColorDark,
-            )
-          : getOuterShadow(
-              primary: _theme.primaryColor,
-              lightShadow: _theme.primaryColorLight,
-              darkShadow: _theme.primaryColorDark,
-            ),
+      decoration:
+          _isPressed ? getInnerShadow(context) : getOuterShadow(context),
     );
   }
 }

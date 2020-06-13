@@ -39,20 +39,24 @@ class _CalculatorPageState extends State<CalculatorPage> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               CalculatorAppbar(),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: <Widget>[
-                    LeadingText(),
-                    TrailingText(),
-                  ],
-                ),
-              ),
+              buildDisplayScreen(),
               ButtonContainer(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Expanded buildDisplayScreen() {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          LeadingText(),
+          TrailingText(),
+        ],
       ),
     );
   }

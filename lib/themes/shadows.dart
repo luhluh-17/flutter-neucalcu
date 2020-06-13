@@ -20,39 +20,39 @@ List<BoxShadow> _getShadows({@required Color light, @required Color dark}) {
   return shadows;
 }
 
-ConcaveDecoration getInnerShadow(
-    {double radius = _radius,
-    @required Color lightShadow,
-    @required Color darkShadow}) {
+ConcaveDecoration getInnerShadow(BuildContext context,
+    {double radius = _radius}) {
+  final _theme = Theme.of(context);
   return ConcaveDecoration(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(radius),
     ),
-    colors: [lightShadow, darkShadow],
+    colors: [_theme.primaryColorLight, _theme.primaryColorDark],
     depth: 6.0,
   );
 }
 
-BoxDecoration getOuterShadow({
-  double radius = _radius,
-  @required Color primary,
-  @required Color lightShadow,
-  @required Color darkShadow,
-}) {
+BoxDecoration getOuterShadow(BuildContext context, {double radius = _radius}) {
+  final _theme = Theme.of(context);
+
   return BoxDecoration(
-      borderRadius: BorderRadius.circular(radius),
-      color: primary,
-      boxShadow: _getShadows(light: lightShadow, dark: darkShadow));
+    borderRadius: BorderRadius.circular(radius),
+    color: _theme.primaryColor,
+    boxShadow: _getShadows(
+      light: _theme.primaryColorLight,
+      dark: _theme.primaryColorDark,
+    ),
+  );
 }
 
-BoxDecoration getOuterShadowCircle({
-  @required Color primary,
-  @required Color lightShadow,
-  @required Color darkShadow,
-}) {
+BoxDecoration getOuterShadowCircle(BuildContext context) {
+  final _theme = Theme.of(context);
   return BoxDecoration(
     shape: BoxShape.circle,
-    color: primary,
-    boxShadow: _getShadows(light: lightShadow, dark: darkShadow),
+    color: _theme.primaryColor,
+    boxShadow: _getShadows(
+      light: _theme.primaryColorLight,
+      dark: _theme.primaryColorDark,
+    ),
   );
 }

@@ -18,4 +18,16 @@ class Animate with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  containerAnimation() {
+    if (showAnswer) {
+      showAnswer = false;
+      reverseAnimation(controller: leadingController);
+      reverseAnimation(controller: trailingController);
+    } else {
+      showAnswer = true;
+      startAnimation(controller: leadingController);
+      startAnimation(controller: trailingController);
+    }
+  }
 }

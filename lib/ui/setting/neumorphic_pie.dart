@@ -9,11 +9,7 @@ class CircleContainer extends StatelessWidget {
     return Container(
       height: 290.0,
       width: 290.0,
-      decoration: getOuterShadowCircle(
-        primary: _theme.primaryColor,
-        lightShadow: _theme.primaryColorLight,
-        darkShadow: _theme.primaryColorDark,
-      ),
+      decoration: getOuterShadowCircle(context),
       child: Center(
         child: Container(
           height: 200.0,

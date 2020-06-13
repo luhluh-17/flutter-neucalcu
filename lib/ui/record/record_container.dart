@@ -14,17 +14,12 @@ class RecordContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _theme = Theme.of(context);
-    final _textTheme = _theme.textTheme;
+
     return Container(
       height: 120,
       width: double.infinity,
       padding: EdgeInsets.all(12.0),
-      decoration: getOuterShadow(
-        radius: 15.0,
-        primary: _theme.primaryColor,
-        lightShadow: _theme.primaryColorLight,
-        darkShadow: _theme.primaryColorDark,
-      ),
+      decoration: getOuterShadow(context, radius: 15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
@@ -40,42 +35,50 @@ class RecordContainer extends StatelessWidget {
           Expanded(
             child: InkWell(
               onTap: () {
-                final calculate = context.read<Calculate>();
-                calculate.getDataFromRecords(
-                  answer: record.answer,
-                  equation: record.equation,
-                  date: record.date,
-                );
-                final animate = context.read<Animate>();
-                animate.showAnswer = false;
-                animate.reverseAnimation(controller: animate.leadingController);
-                animate.reverseAnimation(
-                    controller: animate.trailingController);
                 Navigator.pop(context);
+                context.read<Animate>().containerAnimation();
+                context.read<Calculate>().getDataFromRecords(
+                      answer: record.answer,
+                      equation: record.equation,
+                      date: record.date,
+                    );
               },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: <Widget>[
-                  FittedBox(
-                    fit: BoxFit.fitWidth,
-                    child: Text(
-                      record.answer,
-                      style: _textTheme.headline5
-                          .copyWith(color: _textTheme.headline1.color),
-                    ),
-                  ),
-                  Text(
-                    record.equation,
-                    overflow: TextOverflow.ellipsis,
-                    style: _textTheme.bodyText1,
-                  ),
-                ],
-              ),
+              child: RecordText(record: record),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class RecordText extends StatelessWidget {
+  RecordText({@required this.record});
+
+  final Record record;
+
+  @override
+  Widget build(BuildContext context) {
+    final _textTheme = Theme.of(context).textTheme;
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        FittedBox(
+          fit: BoxFit.fitWidth,
+          child: Text(
+            record.answer,
+            style: _textTheme.headline5.copyWith(
+              color: _textTheme.headline1.color,
+            ),
+          ),
+        ),
+        Text(
+          record.equation,
+          overflow: TextOverflow.ellipsis,
+          style: _textTheme.bodyText1,
+        ),
+      ],
     );
   }
 }

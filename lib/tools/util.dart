@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:intl/intl.dart';
 
 String getFormattedDate({String date}) {
@@ -8,6 +9,24 @@ String getFormattedDate({String date}) {
   String formattedDate = formatter.format(dateTime);
 
   return formattedDate;
+}
+
+String addCommaSeparator({String text}) {
+  FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
+    amount: double.parse(text),
+    settings: MoneyFormatterSettings(
+      fractionDigits: _getDecimalLength(text),
+    ),
+  );
+  return fmf.output.nonSymbol.toString();
+}
+
+int _getDecimalLength(String answer) {
+  int startIndex = answer.indexOf('.') + 1;
+  int endIndex = answer.length;
+
+  String decimal = answer.substring(startIndex, endIndex);
+  return (answer.contains('.') && answer.endsWith('0')) ? 0 : decimal.length;
 }
 
 SystemUiOverlayStyle getSystemUI({bool appTheme, Color navBarColor}) {
