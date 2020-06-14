@@ -11,15 +11,12 @@ const String _error = 'Syntax Error';
 
 class Calculate with ChangeNotifier {
   String _result = ' ';
-  String _expression = '0';
   String _equation = '0';
-  String _numbers = '';
-  String _symbols = '';
-  List<String> _equationList = List<String>();
+  List<String> _expressionList = List<String>();
 
   String get result => _result;
 
-  String get expression => _expression;
+  String get expression => _getExpression();
 
   // Record History
   getDataFromRecords({String answer, String equation, String date}) {
@@ -52,22 +49,16 @@ class Calculate with ChangeNotifier {
 
   _clearInput() {
     _result = ' ';
-    _expression = '0';
     _equation = '0';
-    _numbers = '';
-    _symbols = '';
-    _equationList.clear();
+    _expressionList.clear();
   }
 
   _deleteLast() {
     _equation = _equation.substring(0, _equation.length - 1);
-    _result = _calculateExpression(enablePreview: true);
-    _equationList.removeLast();
-    print('Equation: $_equation');
-    print('List: ${_equationList.toString()}');
     if (_equation == '') {
       _clearInput();
     }
+    _result = _calculateExpression(enablePreview: true);
   }
 
   _displayAnswer(BuildContext context) {
@@ -116,69 +107,30 @@ class Calculate with ChangeNotifier {
   }
 
   _getButtonText(String buttonValue) {
-    String lastValue = _equation[_equation.length - 1];
     _equation = (_equation == '0') ? buttonValue : _equation + buttonValue;
     _result = _calculateExpression(enablePreview: true);
-
-    // any numbers from 0-9 with/without decimal values and .
-    RegExp regExpNumbers = RegExp('(([0-9]*)?.?[0-9]+)|[.]');
-    // not numbers from 0-9 and .
-    RegExp regExpSymbols = RegExp('[^0-9.]');
-
-    if (regExpNumbers.hasMatch(buttonValue)) {
-      if (regExpSymbols.hasMatch(lastValue)) {
-        _equationList.add(_symbols);
-        _symbols = '';
-      }
-      _numbers += buttonValue;
-    }
-
-    if (regExpSymbols.hasMatch(buttonValue)) {
-      if (regExpNumbers.hasMatch(lastValue)) {
-        _numbers = _addCommaSeparator(text: _numbers);
-        _equationList.add(_numbers);
-        _numbers = '';
-      }
-      _symbols += buttonValue;
-    }
-
-    // Empty String returns error on Text inside a FittedBox widget
-    _expression = (_getExpression() == '') ? ' ' : _getExpression() + _symbols;
-
-    print('Numbers: $_numbers');
-    print('if: ${_numbers != ''}');
-    if (_numbers != '') {
-      _expression += _addCommaSeparator(text: _numbers);
-    }
-
-    print('Symbols: $_symbols');
-    print('List: ${_equationList.toString()}');
   }
 
   String _getExpression() {
-    String exp = '';
-    if (_equationList.isNotEmpty) {
-      _equationList.forEach((value) => exp += value);
-    }
+    // any numbers from 0-9 with/without decimal values and .
+    RegExp regExpNumbers = RegExp(r'\d+\.?\d+');
+
+    String exp = _equation.replaceAllMapped(regExpNumbers, (match) {
+      String value = _equation.substring(match.start, match.end);
+      return _addCommaSeparator(text: value);
+    });
+
     return exp;
   }
 
   String _addCommaSeparator({String text}) {
-    if (text.endsWith('.')) {
-      return text;
-    } else {
-      try {
-        FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
-          amount: double.parse(text),
-          settings: MoneyFormatterSettings(
-            fractionDigits: _getDecimalLength(text),
-          ),
-        );
-        return fmf.output.nonSymbol.toString();
-      } catch (e) {
-        return text;
-      }
-    }
+    FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
+      amount: double.parse(text),
+      settings: MoneyFormatterSettings(
+        fractionDigits: _getDecimalLength(text),
+      ),
+    );
+    return fmf.output.nonSymbol.toString();
   }
 
   int _getDecimalLength(String text) {
