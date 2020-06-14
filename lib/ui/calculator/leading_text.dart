@@ -49,7 +49,7 @@ class _LeadingTextState extends State<LeadingText>
     return FittedBox(
       fit: BoxFit.fitWidth,
       child: Text(
-        '${context.watch<Calculate>().equation}',
+        '${context.watch<Calculate>().expression}',
         style: TextStyle(
           color: _colorTween.evaluate(_animation),
           fontSize: _sizeTween.evaluate(_animation),

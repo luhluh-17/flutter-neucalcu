@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:intl/intl.dart';
+import 'package:neucalcu/models/record.dart';
 
 String getFormattedDate({String date}) {
   DateTime dateTime = DateTime.parse(date);
@@ -11,36 +11,27 @@ String getFormattedDate({String date}) {
   return formattedDate;
 }
 
-String addCommaSeparator({String text}) {
-  FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
-    amount: double.parse(text),
-    settings: MoneyFormatterSettings(
-      fractionDigits: _getDecimalLength(text),
-    ),
-  );
-  return fmf.output.nonSymbol.toString();
-}
-
-int _getDecimalLength(String answer) {
-  int startIndex = answer.indexOf('.') + 1;
-  int endIndex = answer.length;
-
-  String decimal = answer.substring(startIndex, endIndex);
-  return (answer.contains('.') && answer.endsWith('0')) ? 0 : decimal.length;
+List getReversedList({box}) {
+  List<Record> list = List<Record>();
+  for (int i = 0; i < box.length; i++) {
+    final Record record = box.get(i);
+    list.add(record);
+  }
+  return list.reversed.toList();
 }
 
 SystemUiOverlayStyle getSystemUI({bool appTheme, Color navBarColor}) {
   return appTheme
       ? SystemUiOverlayStyle.dark.copyWith(
-    statusBarColor: Colors.transparent,
-    statusBarBrightness: Brightness.dark,
-    systemNavigationBarColor: navBarColor,
-  )
+          statusBarColor: Colors.transparent,
+          statusBarBrightness: Brightness.dark,
+          systemNavigationBarColor: navBarColor,
+        )
       : SystemUiOverlayStyle.light.copyWith(
-    statusBarColor: Colors.transparent,
-    statusBarBrightness: Brightness.light,
-    systemNavigationBarColor: navBarColor,
-  );
+          statusBarColor: Colors.transparent,
+          statusBarBrightness: Brightness.light,
+          systemNavigationBarColor: navBarColor,
+        );
 }
 
 appBarStyle(BuildContext context) {

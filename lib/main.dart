@@ -31,10 +31,7 @@ _initializeHive() async {
   Hive.init(appDirectory.path);
   Hive.registerAdapter<Record>(RecordAdapter());
   await Hive.openBox<Record>(boxRecord);
-
-  var box = await Hive.openBox(boxColor);
-
-  print('Colors: ${box.length}');
+  final box = await Hive.openBox(boxColor);
   if (box.length == 0) {
     print('Initialize Default Color Value');
     box.put('primary', AppColors.primary.value);
