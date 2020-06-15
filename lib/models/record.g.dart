@@ -17,8 +17,8 @@ class RecordAdapter extends TypeAdapter<Record> {
       for (var i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Record(
-      answer: fields[0] as String,
-      equation: fields[1] as String,
+      result: fields[0] as String,
+      expression: fields[1] as String,
       date: fields[2] as String,
     );
   }
@@ -28,9 +28,9 @@ class RecordAdapter extends TypeAdapter<Record> {
     writer
       ..writeByte(3)
       ..writeByte(0)
-      ..write(obj.answer)
+      ..write(obj.result)
       ..writeByte(1)
-      ..write(obj.equation)
+      ..write(obj.expression)
       ..writeByte(2)
       ..write(obj.date);
   }

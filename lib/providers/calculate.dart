@@ -9,8 +9,10 @@ import 'animate.dart';
 const String _error = 'Syntax Error';
 
 class Calculate with ChangeNotifier {
+  // FittedBox that has a child Text that has a empty String returns error
+  // Solution: add white space in text
   String _result = ' ';
-  String _equation = '';
+  String _expression = '';
 
   // trailing text
   String get result => _result;
@@ -19,10 +21,9 @@ class Calculate with ChangeNotifier {
   String get expression => _getExpression();
 
   // Record History
-  getDataFromRecords({String answer, String equation, String date}) {
-    // The values I stored in hive are reversed
-    _equation = answer;
-    _result = equation;
+  getDataFromRecords({String result, String expression, String date}) {
+    _result = result;
+    _expression = expression;
     notifyListeners();
   }
 
@@ -47,37 +48,45 @@ class Calculate with ChangeNotifier {
     notifyListeners();
   }
 
-  _clearInput() {
-    _result = ' ';
-    _equation = '';
+  String _getExpression() {
+    String exp = _formatOutput(_expression);
+    return (exp == '') ? '0' : exp;
   }
 
+  _clearInput() {
+    _result = ' ';
+    _expression = '';
+  }
+
+  // TODO implement method in onLongTap
   _deleteLast() {
-    _equation = _equation.substring(0, _equation.length - 1);
-    if (_equation == '') {
+    _expression = _expression.substring(0, _expression.length - 1);
+    if (_expression == '') {
       _clearInput();
     }
-    _result = _calculateExpression(enablePreview: true);
+    _result = _calculateExpression();
   }
 
   _displayAnswer(BuildContext context) {
-    _result = _calculateExpression(enablePreview: false);
+    // math symbols at end of text
+    RegExp regExp = RegExp(r'[^\d\.]$');
+    _result = regExp.hasMatch(_expression) ? _error : _calculateExpression();
 
     final animate = context.read<Animate>();
 
-    if (result != 'Syntax Error' && !animate.showAnswer) {
+    if (result != _error && !animate.showAnswer) {
+      _saveRecord();
       animate.showAnswer = true;
       animate.startAnimation(controller: animate.leadingController);
       animate.startAnimation(controller: animate.trailingController);
-      _saveRecord();
     }
   }
 
   _saveRecord() {
-    if (result != _equation) {
+    if (result != _expression) {
       Record record = Record(
-        answer: result,
-        equation: _getExpression(),
+        result: result,
+        expression: expression,
         date: DateTime.now().toString(),
       );
 
@@ -85,38 +94,42 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  String _calculateExpression({bool enablePreview}) {
-    String answer;
-    String placeholder;
-    placeholder = _equation.replaceAll(',', '');
+  String _calculateExpression() {
+    // removes comma
+    String placeholder = _expression.replaceAll(',', '');
+    // replaces special operator symbols
     placeholder = placeholder.replaceAll('×', '*');
     placeholder = placeholder.replaceAll('÷', '/');
 
     try {
-      print('Exp: $placeholder');
+      // Math Expression Package
       Expression exp = Parser().parse(placeholder);
       ContextModel context = ContextModel();
+      double answer = exp.evaluate(EvaluationType.REAL, context);
 
-      answer = exp.evaluate(EvaluationType.REAL, context).toString();
-
-      int decimalLength = _getDecimalLength(answer);
-      answer = double.parse(answer).toStringAsFixed(decimalLength);
-      return _formatOutput(answer);
+      int length = _getDecimalLength(answer);
+      return _formatOutput(answer.toStringAsFixed(length));
     } catch (e) {
-      return enablePreview ? result : _error;
+      return result;
+    }
+  }
+
+  int _getDecimalLength(double value) {
+    String text = value.toString();
+    if (!text.endsWith('.0')) {
+      int startIndex = text.indexOf('.') + 1;
+      int endIndex = text.length;
+      String decimal = text.substring(startIndex, endIndex);
+      return decimal.length;
+    } else {
+      // removes unwanted decimals if numbers in the expression are integers
+      return 0;
     }
   }
 
   _getButtonText(String buttonValue) {
-    _equation += buttonValue;
-    _result = _calculateExpression(enablePreview: true);
-  }
-
-  String _getExpression() {
-    String exp = _formatOutput(_equation);
-    // returns 0 as default value if empty string
-    // FittedBox that has a child Text that has a empty String returns error
-    return (exp == '') ? '0' : exp;
+    _expression += buttonValue;
+    _result = _calculateExpression();
   }
 
   // TODO needs improvement
@@ -154,18 +167,5 @@ class Calculate with ChangeNotifier {
     });
 
     return output;
-  }
-
-  int _getDecimalLength(String text) {
-    if (!text.endsWith('.0')) {
-      int startIndex = text.indexOf('.') + 1;
-      int endIndex = text.length;
-      String decimal = text.substring(startIndex, endIndex);
-      debugPrint('Decimal: $decimal');
-      debugPrint('Length: ${decimal.length}');
-      return decimal.length;
-    } else {
-      return 0;
-    }
   }
 }

@@ -7,11 +7,11 @@ const String boxRecord = 'record';
 @HiveType(typeId: 0)
 class Record {
   @HiveField(0)
-  final String answer;
+  final String result;
   @HiveField(1)
-  final String equation;
+  final String expression;
   @HiveField(2)
   final String date;
 
-  Record({this.answer, this.equation, this.date});
+  Record({this.result, this.expression, this.date});
 }

@@ -38,8 +38,8 @@ class RecordContainer extends StatelessWidget {
                 Navigator.pop(context);
                 context.read<Animate>().containerAnimation();
                 context.read<Calculate>().getDataFromRecords(
-                      answer: record.answer,
-                      equation: record.equation,
+                      result: record.result,
+                      expression: record.expression,
                       date: record.date,
                     );
               },
@@ -67,14 +67,14 @@ class RecordText extends StatelessWidget {
         FittedBox(
           fit: BoxFit.fitWidth,
           child: Text(
-            record.answer,
+            record.result,
             style: _textTheme.headline5.copyWith(
               color: _textTheme.headline1.color,
             ),
           ),
         ),
         Text(
-          record.equation,
+          record.expression,
           overflow: TextOverflow.ellipsis,
           style: _textTheme.bodyText1,
         ),
