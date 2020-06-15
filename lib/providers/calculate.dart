@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_money_formatter/flutter_money_formatter.dart';
 import 'package:hive/hive.dart';
 import 'package:math_expressions/math_expressions.dart';
 import 'package:neucalcu/models/record.dart';
@@ -11,16 +10,17 @@ const String _error = 'Syntax Error';
 
 class Calculate with ChangeNotifier {
   String _result = ' ';
-  String _equation = '0';
-  List<String> _expressionList = List<String>();
+  String _equation = '';
 
+  // trailing text
   String get result => _result;
 
+  // leading text
   String get expression => _getExpression();
 
   // Record History
   getDataFromRecords({String answer, String equation, String date}) {
-    // The values stored in hive are reversed
+    // The values I stored in hive are reversed
     _equation = answer;
     _result = equation;
     notifyListeners();
@@ -49,8 +49,7 @@ class Calculate with ChangeNotifier {
 
   _clearInput() {
     _result = ' ';
-    _equation = '0';
-    _expressionList.clear();
+    _equation = '';
   }
 
   _deleteLast() {
@@ -78,7 +77,7 @@ class Calculate with ChangeNotifier {
     if (result != _equation) {
       Record record = Record(
         answer: result,
-        equation: _equation,
+        equation: _getExpression(),
         date: DateTime.now().toString(),
       );
 
@@ -94,51 +93,77 @@ class Calculate with ChangeNotifier {
     placeholder = placeholder.replaceAll('÷', '/');
 
     try {
-      Parser p = Parser();
-      Expression exp = p.parse(placeholder);
+      print('Exp: $placeholder');
+      Expression exp = Parser().parse(placeholder);
       ContextModel context = ContextModel();
 
       answer = exp.evaluate(EvaluationType.REAL, context).toString();
-      answer = _addCommaSeparator(text: answer);
-      return answer;
+
+      int decimalLength = _getDecimalLength(answer);
+      answer = double.parse(answer).toStringAsFixed(decimalLength);
+      return _formatOutput(answer);
     } catch (e) {
       return enablePreview ? result : _error;
     }
   }
 
   _getButtonText(String buttonValue) {
-    _equation = (_equation == '0') ? buttonValue : _equation + buttonValue;
+    _equation += buttonValue;
     _result = _calculateExpression(enablePreview: true);
   }
 
   String _getExpression() {
-    // any numbers from 0-9 with/without decimal values and .
-    RegExp regExpNumbers = RegExp(r'\d+\.?\d+');
-
-    String exp = _equation.replaceAllMapped(regExpNumbers, (match) {
-      String value = _equation.substring(match.start, match.end);
-      return _addCommaSeparator(text: value);
-    });
-
-    return exp;
+    String exp = _formatOutput(_equation);
+    // returns 0 as default value if empty string
+    // FittedBox that has a child Text that has a empty String returns error
+    return (exp == '') ? '0' : exp;
   }
 
-  String _addCommaSeparator({String text}) {
-    FlutterMoneyFormatter fmf = FlutterMoneyFormatter(
-      amount: double.parse(text),
-      settings: MoneyFormatterSettings(
-        fractionDigits: _getDecimalLength(text),
-      ),
-    );
-    return fmf.output.nonSymbol.toString();
+  // TODO needs improvement
+  // find a better way to select only whole numbers
+  String _formatOutput(String text) {
+    // all digits
+    RegExp regExp = RegExp(r'\d+');
+
+    // First Pattern: replaces match patterns to custom string
+    String first = text.replaceAllMapped(regExp, (match) {
+      String value = text.substring(match.start, match.end);
+      return _commaSeparator(value);
+    });
+
+    // decimal values that has comma separator
+    RegExp regExpDecimals = RegExp(r'\.(\d{1,3},)+(\d+)?');
+
+    // Last Pattern: removes comma in decimal places
+    String last = first.replaceAllMapped(regExpDecimals, (match) {
+      String value = first.substring(match.start, match.end);
+      return value.replaceAll(',', '');
+    });
+
+    return last;
+  }
+
+  String _commaSeparator(String text) {
+    // hundreds separator
+    RegExp regExpNumbers = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+
+    // add comma in match patterns
+    String output = text.replaceAllMapped(regExpNumbers, (match) {
+      String matchValue = text.substring(match.start, match.end);
+      return '$matchValue,';
+    });
+
+    return output;
   }
 
   int _getDecimalLength(String text) {
-    if (text.indexOf('.') != -1) {
+    if (!text.endsWith('.0')) {
       int startIndex = text.indexOf('.') + 1;
       int endIndex = text.length;
       String decimal = text.substring(startIndex, endIndex);
-      return (text.contains('.') && text.endsWith('0')) ? 0 : decimal.length;
+      debugPrint('Decimal: $decimal');
+      debugPrint('Length: ${decimal.length}');
+      return decimal.length;
     } else {
       return 0;
     }
