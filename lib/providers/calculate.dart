@@ -59,17 +59,20 @@ class Calculate with ChangeNotifier {
   }
 
   // TODO implement method in onLongTap
-  _deleteLast() {
+  _deleteLast({bool calculate = true}) {
     _expression = _expression.substring(0, _expression.length - 1);
     if (_expression == '') {
       _clearInput();
     }
+
+    // calculates expression if necessary
+    if (calculate) {
+      _result = _calculateExpression();
+    }
   }
 
   _animateResult(BuildContext context) {
-    // non-digits and . at the end of text
-    RegExp regExp = RegExp(r'[^\d\.]$');
-    _result = regExp.hasMatch(expression) ? _error : _calculateExpression();
+    _result = _calculateExpression(showError: true);
 
     final animate = context.read<Animate>();
 
@@ -93,23 +96,34 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  String _calculateExpression() {
+  String _calculateExpression({bool showError = false}) {
     // removes comma
     String placeholder = _expression.replaceAll(',', '');
     // replaces special operator symbols
     placeholder = placeholder.replaceAll('×', '*');
     placeholder = placeholder.replaceAll('÷', '/');
 
+    // digits that has (
+    RegExp regExp = RegExp(r'\d+\(');
+    if (regExp.hasMatch(placeholder)) {
+      // Math Expression package limitation
+      // unable to compute n(n)
+      placeholder = placeholder.replaceAllMapped(regExp, (match) {
+        // adds multiplication operator before open parenthesis
+        String value = placeholder.substring(match.start, match.end);
+        return value.replaceAll('(', '*(');
+      });
+    }
     try {
       // Math Expression Package
       Expression exp = Parser().parse(placeholder);
       ContextModel context = ContextModel();
       double answer = exp.evaluate(EvaluationType.REAL, context);
-
       int length = _getDecimalLength(answer);
       return _formatOutput(answer.toStringAsFixed(length));
     } catch (e) {
-      return result;
+      // return previous result
+      return showError ? _error : result;
     }
   }
 
@@ -127,33 +141,38 @@ class Calculate with ChangeNotifier {
   }
 
   _getButtonText(String buttonValue) {
-    // non-digits and ( )
-    RegExp regExp = RegExp(r'[^\d\(\)]$');
+    // any operator excluding -
+    RegExp regExp = RegExp(r'[÷×+]$');
     // prevents spamming of operators
-    if (regExp.hasMatch(_expression) && regExp.hasMatch(buttonValue)) {
-      _deleteLast();
+    if (regExp.hasMatch(expression) && regExp.hasMatch(buttonValue)) {
+      _deleteLast(calculate: false);
     }
-    _expression += buttonValue;
-    _result = _calculateExpression();
+
+    // decimal numbers at the end of text
+    RegExp regExp3 = RegExp(r'\.\d+$');
+    if (!(regExp3.hasMatch(expression) && buttonValue == '.')) {
+      _expression += buttonValue;
+      _result = _calculateExpression();
+    }
   }
 
   // TODO needs improvement
   // find a better way to select only whole numbers
   String _formatOutput(String text) {
     // all digits
-    RegExp regExp = RegExp(r'\d+');
+    RegExp regExp1 = RegExp(r'\d+');
 
     // First Pattern: replaces match patterns to custom string
-    String first = text.replaceAllMapped(regExp, (match) {
+    String first = text.replaceAllMapped(regExp1, (match) {
       String value = text.substring(match.start, match.end);
       return _commaSeparator(value);
     });
 
     // decimal values that has comma separator
-    RegExp regExpDecimals = RegExp(r'\.(\d{1,3},)+(\d+)?');
+    RegExp regExp2 = RegExp(r'\.(\d{1,3},)+(\d+)?');
 
     // Last Pattern: removes comma in decimal places
-    String last = first.replaceAllMapped(regExpDecimals, (match) {
+    String last = first.replaceAllMapped(regExp2, (match) {
       String value = first.substring(match.start, match.end);
       return value.replaceAll(',', '');
     });
@@ -163,10 +182,10 @@ class Calculate with ChangeNotifier {
 
   String _commaSeparator(String text) {
     // hundreds separator
-    RegExp regExpNumbers = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+    RegExp regExp = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
 
     // add comma in match patterns
-    String output = text.replaceAllMapped(regExpNumbers, (match) {
+    String output = text.replaceAllMapped(regExp, (match) {
       String matchValue = text.substring(match.start, match.end);
       return '$matchValue,';
     });
