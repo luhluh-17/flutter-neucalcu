@@ -33,7 +33,7 @@ class Calculate with ChangeNotifier {
     } else if (buttonValue == 'Del') {
       _deleteLast();
     } else if (buttonValue == '=') {
-      _displayAnswer(context);
+      _animateResult(context);
     } else {
       _getButtonText(buttonValue);
     }
@@ -64,13 +64,12 @@ class Calculate with ChangeNotifier {
     if (_expression == '') {
       _clearInput();
     }
-    _result = _calculateExpression();
   }
 
-  _displayAnswer(BuildContext context) {
-    // math symbols at end of text
+  _animateResult(BuildContext context) {
+    // non-digits and . at the end of text
     RegExp regExp = RegExp(r'[^\d\.]$');
-    _result = regExp.hasMatch(_expression) ? _error : _calculateExpression();
+    _result = regExp.hasMatch(expression) ? _error : _calculateExpression();
 
     final animate = context.read<Animate>();
 
@@ -128,6 +127,12 @@ class Calculate with ChangeNotifier {
   }
 
   _getButtonText(String buttonValue) {
+    // non-digits and ( )
+    RegExp regExp = RegExp(r'[^\d\(\)]$');
+    // prevents spamming of operators
+    if (regExp.hasMatch(_expression) && regExp.hasMatch(buttonValue)) {
+      _deleteLast();
+    }
     _expression += buttonValue;
     _result = _calculateExpression();
   }
