@@ -67,12 +67,12 @@ class Calculate with ChangeNotifier {
 
     // calculates expression if necessary
     if (calculate) {
-      _result = _calculateExpression();
+      _result = _getResult();
     }
   }
 
   _animateResult(BuildContext context) {
-    _result = _calculateExpression(showError: true);
+    _result = _getResult(showError: true);
 
     final animate = context.read<Animate>();
 
@@ -96,7 +96,8 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  String _calculateExpression({bool showError = false}) {
+  // calculates expression
+  String _getResult({bool showError = false}) {
     // removes comma
     String placeholder = _expression.replaceAll(',', '');
     // replaces special operator symbols
@@ -143,17 +144,55 @@ class Calculate with ChangeNotifier {
   _getButtonText(String buttonValue) {
     // any operator excluding -
     RegExp regExp = RegExp(r'[÷×+]$');
+    if (expression == '0' && regExp.hasMatch(buttonValue)) {
+      // _expression += buttonValue will not work
+      // _getExpression() returns exp if string not empty
+      // thus _expression will only return buttonValue
+      _expression = '0' + buttonValue;
+      return;
+    }
+
     // prevents spamming of operators
     if (regExp.hasMatch(expression) && regExp.hasMatch(buttonValue)) {
       _deleteLast(calculate: false);
     }
 
-    // decimal numbers at the end of text
-    RegExp regExp3 = RegExp(r'\.\d+$');
-    if (!(regExp3.hasMatch(expression) && buttonValue == '.')) {
-      _expression += buttonValue;
-      _result = _calculateExpression();
+    // dot and decimal numbers at the end of text
+    RegExp regExp2 = RegExp(r'\.((\d+)|[÷×+-])?$');
+    // prevents multiple frequency of .
+    if (regExp2.hasMatch(expression) && buttonValue == '.') {
+      return;
     }
+
+    // math operators excluding -
+    RegExp regExp3 = RegExp(r'[÷×+]$');
+    // prevents operators after -
+    if (expression.endsWith('-') && regExp3.hasMatch(buttonValue)) {
+      return;
+    }
+
+    // prevents spamming of -
+    if (expression.endsWith('-') && buttonValue == '-') {
+      return;
+    }
+
+    // only allow input of ) to the number of ( that was used
+    if (frequency('(') <= frequency(')') && buttonValue == ')') {
+      return;
+    }
+
+    _expression += buttonValue;
+    _result = _getResult();
+  }
+
+  int frequency(String value) {
+    int count = 0;
+    for (int i = 0; i < expression.length; i++) {
+      if (value == expression[i]) {
+        count++;
+      }
+    }
+    return count;
   }
 
   // TODO needs improvement
