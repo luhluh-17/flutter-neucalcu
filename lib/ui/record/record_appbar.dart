@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
 import 'package:neucalcu/models/record.dart';
-import 'package:neucalcu/tools/util.dart';
 import 'package:neucalcu/ui/widgets/custom_icon_button.dart';
+import 'package:neucalcu/utils/utilities.dart';
 
 class RecordAppbar extends StatelessWidget {
-  final recordBox = Hive.box<Record>(boxRecord);
+  final _recordBox = Hive.box<Record>(boxRecord);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class RecordAppbar extends StatelessWidget {
             CustomIconButton(
               icon: LineAwesomeIcons.trash,
               onPressed: () {
-                recordBox..clear();
+                _recordBox..clear();
                 Navigator.pop(context);
               },
             ),

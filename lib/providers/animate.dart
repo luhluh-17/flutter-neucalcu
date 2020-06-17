@@ -5,29 +5,28 @@ class Animate with ChangeNotifier {
   AnimationController leadingController;
   AnimationController trailingController;
 
-  startAnimation({AnimationController controller}) {
-    if (controller != null) {
-      controller.forward(from: 0.0);
-      notifyListeners();
-    }
-  }
-
-  reverseAnimation({AnimationController controller}) {
-    if (controller != null) {
-      controller.reverse(from: 1.0);
-      notifyListeners();
-    }
-  }
-
-  containerAnimation() {
+  void start() {
     if (showAnswer) {
       showAnswer = false;
-      reverseAnimation(controller: leadingController);
-      reverseAnimation(controller: trailingController);
+      _reverse(controller: leadingController);
+      _reverse(controller: trailingController);
     } else {
       showAnswer = true;
-      startAnimation(controller: leadingController);
-      startAnimation(controller: trailingController);
+      _forward(controller: leadingController);
+      _forward(controller: trailingController);
+    }
+    notifyListeners();
+  }
+
+  void _forward({AnimationController controller}) {
+    if (controller != null) {
+      controller.forward(from: 0.0);
+    }
+  }
+
+  void _reverse({AnimationController controller}) {
+    if (controller != null) {
+      controller.reverse(from: 1.0);
     }
   }
 }

@@ -3,14 +3,14 @@ import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:neucalcu/models/record.dart';
 import 'package:neucalcu/providers/color_provider.dart';
-import 'package:neucalcu/themes/dimensions.dart';
-import 'package:neucalcu/tools/util.dart';
 import 'package:neucalcu/ui/calculator/calculator_appbar.dart';
+import 'package:neucalcu/ui/widgets/constant/dimensions.dart';
+import 'package:neucalcu/utils/utilities.dart';
 import 'package:provider/provider.dart';
 
 import 'button_container.dart';
-import 'leading_text.dart';
-import 'trailing_text.dart';
+import 'widgets/leading_text.dart';
+import 'widgets/trailing_text.dart';
 
 class CalculatorPage extends StatefulWidget {
   static const String id = '/calculator';
@@ -24,7 +24,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
   @override
   Widget build(BuildContext context) {
-    bool _isDarkMode = context.watch<ColorProvider>().isDarkMode;
+    bool _isDarkMode = context.watch<ColorProvider>().darkMode;
     final _theme = Theme.of(context);
 
     return AnnotatedRegion<SystemUiOverlayStyle>(

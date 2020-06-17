@@ -21,30 +21,28 @@ class Calculate with ChangeNotifier {
   String get expression => _getExpression();
 
   // Record History
-  getDataFromRecords({String result, String expression, String date}) {
+  void updateDisplayValues({String result, String expression, String date}) {
     _result = result;
     _expression = expression;
     notifyListeners();
   }
 
-  getButtonText({BuildContext context, String buttonValue}) {
-    if (buttonValue == 'AC') {
+  void startCalculator({BuildContext context, String buttonText}) {
+    if (buttonText == 'AC') {
       _clearInput();
-    } else if (buttonValue == 'Del') {
+    } else if (buttonText == 'Del') {
       _deleteLast();
-    } else if (buttonValue == '=') {
-      _animateResult(context);
+    } else if (buttonText == '=') {
+      _playAnimation(context);
     } else {
-      _getButtonText(buttonValue);
+      _getButtonText(buttonText);
     }
 
     final animate = context.read<Animate>();
-    if (buttonValue != '=' && animate.showAnswer) {
+    if (buttonText != '=' && animate.showAnswer) {
+      animate.start();
       animate.showAnswer = false;
-      animate.reverseAnimation(controller: animate.leadingController);
-      animate.reverseAnimation(controller: animate.trailingController);
     }
-
     notifyListeners();
   }
 
@@ -53,13 +51,13 @@ class Calculate with ChangeNotifier {
     return (exp == '') ? '0' : exp;
   }
 
-  _clearInput() {
+  void _clearInput() {
     _result = ' ';
     _expression = '';
   }
 
   // TODO implement method in onLongTap
-  _deleteLast({bool calculate = true}) {
+  void _deleteLast({bool calculate = true}) {
     _expression = _expression.substring(0, _expression.length - 1);
     if (_expression == '') {
       _clearInput();
@@ -71,20 +69,19 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  _animateResult(BuildContext context) {
+  void _playAnimation(BuildContext context) {
     _result = _getResult(showError: true);
 
     final animate = context.read<Animate>();
 
     if (result != _error && !animate.showAnswer) {
       _saveRecord();
+      animate.start();
       animate.showAnswer = true;
-      animate.startAnimation(controller: animate.leadingController);
-      animate.startAnimation(controller: animate.trailingController);
     }
   }
 
-  _saveRecord() {
+  void _saveRecord() {
     if (result != _expression) {
       Record record = Record(
         result: result,
@@ -141,7 +138,7 @@ class Calculate with ChangeNotifier {
     }
   }
 
-  _getButtonText(String buttonValue) {
+  void _getButtonText(String buttonValue) {
     // any operator excluding -
     RegExp regExp = RegExp(r'[÷×+]$');
     if (expression == '0' && regExp.hasMatch(buttonValue)) {
@@ -177,7 +174,7 @@ class Calculate with ChangeNotifier {
     }
 
     // only allow input of ) to the number of ( that was used
-    if (frequency('(') <= frequency(')') && buttonValue == ')') {
+    if (_frequency('(') <= _frequency(')') && buttonValue == ')') {
       return;
     }
 
@@ -185,7 +182,7 @@ class Calculate with ChangeNotifier {
     _result = _getResult();
   }
 
-  int frequency(String value) {
+  int _frequency(String value) {
     int count = 0;
     for (int i = 0; i < expression.length; i++) {
       if (value == expression[i]) {

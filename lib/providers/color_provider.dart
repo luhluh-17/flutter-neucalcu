@@ -12,20 +12,23 @@ class ColorProvider with ChangeNotifier {
 
   Color get primary => Color(box.get('primary'));
 
-  Color get primaryLight => _getPrimaryColorLight();
+  Color get primaryLight => _primaryLight();
 
-  Color get primaryDark => _getPrimaryColorDark();
+  Color get primaryDark => _primaryDark();
 
-  bool get isDarkMode => _isColorDark();
+  bool get darkMode => _darkMode();
 
   updatePrimaryColor(Color color) {
-    _primary = _getPrimaryColor(color);
+    _primary = _primaryColor(color);
     final box = Hive.box(boxColor);
     box.put('primary', _primary.value);
     notifyListeners();
   }
 
-  Color _getPrimaryColor(Color color) {
+  // to get better combination of neumorphic colors
+  // primary range must be (25, 230) because brightness is set to 25
+  // to prevent any color to go beyond the color range (0, 255)
+  Color _primaryColor(Color color) {
     int min = 25;
     int max = 230;
 
@@ -33,10 +36,12 @@ class ColorProvider with ChangeNotifier {
     int green = color.green;
     int blue = color.blue;
 
+    // adjust rgb values if below minimum
     red = (red < min) ? red += _brightness : red;
     green = (green < min) ? green += _brightness : green;
     blue = (blue < min) ? blue += _brightness : blue;
 
+    // adjust rgb values if above maximum
     red = (red > max) ? red -= _brightness : red;
     green = (green > max) ? green -= _brightness : green;
     blue = (blue > max) ? blue -= _brightness : blue;
@@ -44,7 +49,8 @@ class ColorProvider with ChangeNotifier {
     return Color.fromRGBO(red, green, blue, 1.0);
   }
 
-  Color _getPrimaryColorLight() {
+  // adding brightness to primary rgb to get light color
+  Color _primaryLight() {
     return Color.fromRGBO(
       primary.red + _brightness,
       primary.green + _brightness,
@@ -53,7 +59,8 @@ class ColorProvider with ChangeNotifier {
     );
   }
 
-  Color _getPrimaryColorDark() {
+  // subtracting brightness to primary rgb to get dark color
+  Color _primaryDark() {
     return Color.fromRGBO(
       primary.red - _brightness,
       primary.green - _brightness,
@@ -62,14 +69,13 @@ class ColorProvider with ChangeNotifier {
     );
   }
 
-  bool _isColorDark() {
+  // checks primary color if it has a darker or lighter shade
+  bool _darkMode() {
     double red = 0.2126 * primary.red;
     double green = 0.7152 * primary.green;
     double blue = 0.0722 * primary.blue;
+    double luminance = (red + green + blue) / 255;
 
-    double brightness = (red + green + blue) / 255;
-
-    bool answer = (brightness > 0.5) ? true : false;
-    return answer;
+    return (luminance > 0.5) ? true : false;
   }
 }

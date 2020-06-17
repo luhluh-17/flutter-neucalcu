@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:neucalcu/models/record.dart';
-import 'package:neucalcu/themes/dimensions.dart';
+import 'package:neucalcu/ui/widgets/constant/dimensions.dart';
 
 import 'record_appbar.dart';
 import 'record_list_builder.dart';
 
 class RecordsPage extends StatelessWidget {
   static const String id = '/records';
-
-  final recordBox = Hive.box<Record>(boxRecord);
+  final _recordBox = Hive.box<Record>(boxRecord);
 
   @override
   Widget build(BuildContext context) {
@@ -18,15 +17,15 @@ class RecordsPage extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: EdgeInsets.only(
-              left: sizeBody1,
-              top: sizeBody1,
-              right: sizeBody1,
+              left: appPadding,
+              top: appPadding,
+              right: appPadding,
             ),
             child: RecordAppbar(),
           ),
           SizedBox(height: 24.0),
-          recordBox.length >= 1
-              ? RecordListBuilder(box: recordBox)
+          _recordBox.length >= 1
+              ? RecordListBuilder(box: _recordBox)
               : EmptyData()
         ],
       ),

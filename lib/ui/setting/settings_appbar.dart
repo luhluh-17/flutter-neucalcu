@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_icons/line_awesome_icons.dart';
-import 'package:neucalcu/tools/util.dart';
+import 'package:neucalcu/ui/setting/widgets/about_app.dart';
 import 'package:neucalcu/ui/widgets/custom_icon_button.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:neucalcu/utils/utilities.dart';
 
 class SettingsAppbar extends StatelessWidget {
   @override
@@ -23,52 +23,15 @@ class SettingsAppbar extends StatelessWidget {
             CustomIconButton(
               icon: LineAwesomeIcons.info_circle,
               size: 25.0,
-              onPressed: () => buildShowAboutDialog(context),
+              onPressed: () => _buildAlertDialog(context),
             ),
           ],
         ),
       ],
     );
   }
-
-  void buildShowAboutDialog(BuildContext context) {
-    const double _size = 54;
-    const String _appName = 'NeuCalcu';
-    const String _appVersion = '1.2.0';
-    const String _message =
-        'NeuCalcu is a Flutter calculator application that uses Neumorphic Design';
-
-    return showAboutDialog(
-      context: context,
-      applicationVersion: _appVersion,
-      applicationName: _appName,
-      applicationIcon: Center(
-        child: SizedBox(
-          width: _size,
-          height: _size,
-          child: Image.asset('assets/logo.png'),
-        ),
-      ),
-      children: [
-        Text(_message),
-        SizedBox(height: 8.0),
-        InkWell(
-          onTap: _launchURL,
-          child: Text(
-            'Icons by Icons8',
-            style: TextStyle(color: Colors.blueAccent),
-          ),
-        ),
-      ],
-    );
-  }
-
-  _launchURL() async {
-    const url = 'https://icons8.com';
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
+  
+  _buildAlertDialog(BuildContext context) {
+     showDialog(context: context, builder: (_) => AboutApp());
   }
 }

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:neucalcu/themes/shadows.dart';
+
+import 'shadows.dart';
+
+const double _buttonSize = 40.0;
 
 class CustomIconButton extends StatelessWidget {
   final IconData icon;
@@ -8,10 +11,9 @@ class CustomIconButton extends StatelessWidget {
 
   CustomIconButton({this.icon, this.size = 20.0, @required this.onPressed});
 
-  static const double _buttonSize = 40.0;
-
   @override
   Widget build(BuildContext context) {
+    final _theme = Theme.of(context);
     return SizedBox(
       height: _buttonSize,
       width: _buttonSize,
@@ -19,13 +21,11 @@ class CustomIconButton extends StatelessWidget {
         onPointerDown: (event) => onPressed(),
         child: Stack(
           children: <Widget>[
-            Container(decoration: getOuterShadow(context, radius: 25.0)),
+            Container(
+              decoration: outerShadow(context, radius: 25.0),
+            ),
             Center(
-              child: Icon(
-                icon,
-                color: Theme.of(context).accentColor,
-                size: size,
-              ),
+              child: Icon(icon, color: _theme.accentColor, size: size),
             ),
           ],
         ),

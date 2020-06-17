@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/providers/animate.dart';
 import 'package:neucalcu/providers/calculate.dart';
-import 'package:neucalcu/themes/dimensions.dart';
+import 'package:neucalcu/ui/widgets/constant/dimensions.dart';
 import 'package:provider/provider.dart';
 
-class TrailingText extends StatefulWidget {
+class LeadingText extends StatefulWidget {
   @override
-  _TrailingTextState createState() => _TrailingTextState();
+  _LeadingTextState createState() => _LeadingTextState();
 }
 
-class _TrailingTextState extends State<TrailingText>
+class _LeadingTextState extends State<LeadingText>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation _animation;
@@ -21,13 +21,12 @@ class _TrailingTextState extends State<TrailingText>
       duration: Duration(milliseconds: 500),
     );
 
-    context.read<Animate>().trailingController = _controller;
+    context.read<Animate>().leadingController = _controller;
 
     _animation = CurvedAnimation(parent: _controller, curve: Curves.easeIn)
       ..addListener(() {
         setState(() {});
       });
-
     super.initState();
   }
 
@@ -43,14 +42,14 @@ class _TrailingTextState extends State<TrailingText>
     Color _primaryText = _textTheme.headline1.color;
     Color _secondaryText = _textTheme.bodyText1.color;
 
-    final _sizeTween = Tween(begin: sizeSubtitle1, end: sizeHeadline1);
+    final _sizeTween = Tween(begin: sizeHeadline1, end: sizeSubtitle1);
     final ColorTween _colorTween =
-        ColorTween(begin: _secondaryText, end: _primaryText);
+        ColorTween(begin: _primaryText, end: _secondaryText);
 
     return FittedBox(
       fit: BoxFit.fitWidth,
       child: Text(
-        '${context.watch<Calculate>().result}',
+        '${context.watch<Calculate>().expression}',
         style: TextStyle(
           color: _colorTween.evaluate(_animation),
           fontSize: _sizeTween.evaluate(_animation),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:neucalcu/providers/calculate.dart';
-import 'package:neucalcu/themes/shadows.dart';
-import 'package:neucalcu/themes/dimensions.dart';
+import 'package:neucalcu/ui/widgets/constant/dimensions.dart';
+import 'package:neucalcu/ui/widgets/shadows.dart';
 import 'package:provider/provider.dart';
 
 class CalculatorButton extends StatefulWidget {
@@ -33,9 +33,9 @@ class _CalculatorButtonState extends State<CalculatorButton> {
         onPointerDown: (event) {
           final provider = context.read<Calculate>();
           setState(() => _isPressed = true);
-          provider.getButtonText(
+          provider.startCalculator(
             context: context,
-            buttonValue: widget.text,
+            buttonText: widget.text,
           );
         },
         onPointerUp: (event) {
@@ -72,7 +72,7 @@ class NeumorphicAnimation extends StatelessWidget {
     return AnimatedContainer(
       duration: Duration(milliseconds: 100),
       decoration:
-          _isPressed ? getInnerShadow(context) : getOuterShadow(context),
+          _isPressed ? innerShadow(context) : outerShadow(context),
     );
   }
 }
