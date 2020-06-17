@@ -16,5 +16,4 @@ Google Play and the Google Play logo are trademarks of Google LLC.
 
 ## Screenshots
 
-<img src="https://thumbs.gfycat.com/PettyThreadbareHartebeest-small.gif" height="352em"/> <img src="github/ss1.jpg" height="352em"/> <img src="https://thumbs.gfycat.com/ImmaterialKlutzyAppaloosa-small.gif" height="352em"/> <img src="github/ss2.jpg" height="352em"/> <img src="https://thumbs.gfycat.com/ScrawnyTerribleHalibut-small.gif" height="352em"/>
-<img src="github/ss3.jpg" height="352em"/> <img src="github/ss4.jpg" height="352em"/> <img src="https://thumbs.gfycat.com/BlandLargeErmine-small.gif" height="352em"/> <img src="github/ss5.jpg" height="352em"/> <img src="github/ss6.jpg" height="352em"/>
+<img src="https://thumbs.gfycat.com/ComplexAlarmingIchthyosaurs-small.gif" height="352em"/> <img src="github/ss1.jpg" height="352em"/> <img src="https://thumbs.gfycat.com/TatteredImpressionableKinkajou-small.gif" height="352em"/> <img src="github/ss2.jpg" height="352em"/> <img src="https://thumbs.gfycat.com/InconsequentialNegativeAmoeba-small.gif" height="352em"/>
