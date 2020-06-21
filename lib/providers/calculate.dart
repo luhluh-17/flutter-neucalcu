@@ -139,9 +139,15 @@ class Calculate with ChangeNotifier {
   }
 
   void _getButtonText(String buttonValue) {
-    // any operator excluding -
-    RegExp regExp = RegExp(r'[÷×+]$');
-    if (expression == '0' && regExp.hasMatch(buttonValue)) {
+    // prevents multiple 0 input at the beginning
+    if (expression.startsWith('0') && buttonValue == '0') {
+      _expression = '0';
+      return;
+    }
+
+    // dot and any operator excluding -
+    RegExp regExp1 = RegExp(r'[÷×+]$');
+    if (expression == '0' && regExp1.hasMatch(buttonValue)) {
       // _expression += buttonValue will not work
       // _getExpression() returns exp if string not empty
       // thus _expression will only return buttonValue
@@ -150,7 +156,7 @@ class Calculate with ChangeNotifier {
     }
 
     // prevents spamming of operators
-    if (regExp.hasMatch(expression) && regExp.hasMatch(buttonValue)) {
+    if (regExp1.hasMatch(expression) && regExp1.hasMatch(buttonValue)) {
       _deleteLast(calculate: false);
     }
 
@@ -178,7 +184,14 @@ class Calculate with ChangeNotifier {
       return;
     }
 
-    _expression += buttonValue;
+    // removes 0 at start
+    RegExp regExp4 = RegExp(r'\d');
+    if (expression.startsWith('0') && regExp4.hasMatch(expression)) {
+      _expression = buttonValue;
+    } else {
+      _expression += buttonValue;
+    }
+
     _result = _getResult();
   }
 

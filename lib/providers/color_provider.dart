@@ -8,9 +8,9 @@ const int _brightness = 25;
 class ColorProvider with ChangeNotifier {
   Color _primary;
 
-  var box = Hive.box(boxColor);
+  final _box = Hive.box(boxColor);
 
-  Color get primary => Color(box.get('primary'));
+  Color get primary => Color(_box.get('primary'));
 
   Color get primaryLight => _primaryLight();
 
@@ -20,8 +20,7 @@ class ColorProvider with ChangeNotifier {
 
   updatePrimaryColor(Color color) {
     _primary = _primaryColor(color);
-    final box = Hive.box(boxColor);
-    box.put('primary', _primary.value);
+    _box.put('primary', _primary.value);
     notifyListeners();
   }
 

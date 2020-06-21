@@ -66,7 +66,7 @@ BoxDecoration innerShadowCircle(BuildContext context) {
         color: _theme.primaryColorLight,
         spreadRadius: 20,
         blurRadius: 45,
-        offset: Offset(0, 8), // changes position of shadow
+        offset: Offset(0, 8),
       ),
     ],
   );
