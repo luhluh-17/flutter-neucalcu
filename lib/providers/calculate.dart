@@ -146,7 +146,7 @@ class Calculate with ChangeNotifier {
     }
 
     // dot and any operator excluding -
-    RegExp regExp1 = RegExp(r'[÷×+]$');
+    RegExp regExp1 = RegExp(r'[.÷×+]$');
     if (expression == '0' && regExp1.hasMatch(buttonValue)) {
       // _expression += buttonValue will not work
       // _getExpression() returns exp if string not empty
@@ -185,7 +185,7 @@ class Calculate with ChangeNotifier {
     }
 
     // removes 0 at start
-    RegExp regExp4 = RegExp(r'\d');
+    RegExp regExp4 = RegExp(r'0\d');
     if (expression.startsWith('0') && regExp4.hasMatch(expression)) {
       _expression = buttonValue;
     } else {
