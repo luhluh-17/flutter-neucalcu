@@ -20,6 +20,7 @@ List<BoxShadow> _shadows({@required Color light, @required Color dark}) {
   return shadows;
 }
 
+// Rounded rectangle
 ConcaveDecoration innerShadow(BuildContext context,
     {double radius = _radius}) {
   final _theme = Theme.of(context);
@@ -45,18 +46,7 @@ BoxDecoration outerShadow(BuildContext context, {double radius = _radius}) {
   );
 }
 
-BoxDecoration outerShadowCircle(BuildContext context) {
-  final _theme = Theme.of(context);
-  return BoxDecoration(
-    shape: BoxShape.circle,
-    color: _theme.primaryColor,
-    boxShadow: _shadows(
-      light: _theme.primaryColorLight,
-      dark: _theme.primaryColorDark,
-    ),
-  );
-}
-
+// Circle
 BoxDecoration innerShadowCircle(BuildContext context) {
   final _theme = Theme.of(context);
   return BoxDecoration(
@@ -69,5 +59,17 @@ BoxDecoration innerShadowCircle(BuildContext context) {
         offset: Offset(0, 8),
       ),
     ],
+  );
+}
+
+BoxDecoration outerShadowCircle(BuildContext context) {
+  final _theme = Theme.of(context);
+  return BoxDecoration(
+    shape: BoxShape.circle,
+    color: _theme.primaryColor,
+    boxShadow: _shadows(
+      light: _theme.primaryColorLight,
+      dark: _theme.primaryColorDark,
+    ),
   );
 }
